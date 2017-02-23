@@ -1,0 +1,13 @@
+{
+	"name": "blah",
+	"hiddenLayers": 
+		[
+			3, 
+			2
+		],
+	"input":
+		[
+			"column1",
+			"column2"
+		]
+}
