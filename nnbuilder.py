@@ -1,7 +1,7 @@
 import json
 from pprint import pprint
 
-class NNObject:
+class NNBuilder:
 	def __init__(self, file):
 
 		with open('JSONNetDesc/exampleNetwork') as data_file:    
