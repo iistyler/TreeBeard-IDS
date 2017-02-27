@@ -24,7 +24,7 @@ class Database:
 			table = "allData"
 
 		# Use all the SQL you like
-		cur.execute("SELECT " + fieldList + " FROM " + table)
+		cur.execute("SELECT " + fieldList + " FROM " + table + " LIMIT 10000")
 
 		result_set = cur.fetchall()
 		self.db.commit()
