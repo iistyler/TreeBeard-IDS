@@ -1,4 +1,4 @@
-from nnobject import *
+from nnbuilder import *
 from databaseObject import *
 from nntrainer import *
 from nnbuilder import *
@@ -26,11 +26,19 @@ newTrainer = NNTrainer();
 test = NNBuilder("exampleNetwork")
 nn = test.BuildNN()
 
-# fields = ["duration", "tcp", "dst_bytes", "normal"]
-newDataset = newTrainer.createDataset(test.input, test.success, "test")
+testDataset = newTrainer.createDataset(test.input, test.success, "test")
+print("Created test dataset")
 
-t = newTrainer.trainNetwork(10, nn, newDataset)
+t = newTrainer.trainNetwork(nn, testDataset)
+print("Trained network")
 
-t.testOnData(newDataset, verbose= True)
+allDataset = newTrainer.createDataset(test.input, test.success, "all")
+print("Created all dataset")
+
+# newTrainer.exportObj(allDataset, "temp/dataset")
+# allDataset2 = newTrainer.importObj("temp/dataset")
+# t2 = newTrainer.importObj("temp/t")
+
+t2.testOnData(dataset=allDataset2, verbose= True)
 
 # print newDataset
