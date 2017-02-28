@@ -10,14 +10,15 @@ class NNBuilder:
         # Don't see why we would change this but just incase
         OUTPUT_NODES = 1
 
-	def __init__(self, file):
+        def __init__(self, file):
 
-		with open('JSONNetDesc/exampleNetwork') as data_file:    
-			data = json.load(data_file)
+            with open('JSONNetDesc/exampleNetwork') as data_file:    
+                data = json.load(data_file)
 
-		self.name = data["name"]
-		self.hiddenLayers = data["hiddenLayers"]
-		self.input = data["input"]
+            self.name = data["name"]
+            self.hiddenLayers = data["hiddenLayers"]
+            self.success = data["success"]
+            self.input = data["input"]
                 
         
         def getName(self):

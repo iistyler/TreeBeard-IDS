@@ -21,10 +21,10 @@ class Database:
 		if (tableType == "test"):
 			table = "testData"
 		else:
-			table = "allData"
+			table = "allData2"
 
 		# Use all the SQL you like
-		cur.execute("SELECT " + fieldList + " FROM " + table)
+		cur.execute("SELECT " + fieldList + " FROM " + table + " ORDER BY RAND() LIMIT 100")
 
 		result_set = cur.fetchall()
 		self.db.commit()
