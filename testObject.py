@@ -50,7 +50,13 @@ from testingHandler import *
 
 testHandler = testingHandler("smallSchema");
 
+print("\nTest Normal")
 netBuilt = testHandler.netDict["normal"];
+testHandler.testNet(netBuilt.nn, 0.5, netBuilt.input, netBuilt.success)
+
+
+print("\nTest Probe")
+netBuilt = testHandler.netDict["probe"];
 testHandler.testNet(netBuilt.nn, 0.5, netBuilt.input, netBuilt.success)
 
 
