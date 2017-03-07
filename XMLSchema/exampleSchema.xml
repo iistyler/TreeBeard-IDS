@@ -1,35 +1,35 @@
-<network name="TopLayer" threshold="0.2">
-	<network name="dos" threshold="0.2">
-		<network name="teardrop" threshold="0.2"></network>
-		<network name="back" threshold="0.2"></network>
-		<network name="pod" threshold="0.2"></network>
-		<network name="land" threshold="0.2"></network>
-		<network name="smurf" threshold="0.2"></network>
-		<network name="neptune" threshold="0.2"></network>
+<network name="normal" threshold="0.5">
+	<network name="dos" threshold="0.5">
+		<network name="teardrop" threshold="0.5"></network>
+		<network name="back" threshold="0.5"></network>
+		<network name="pod" threshold="0.5"></network>
+		<network name="land" threshold="0.5"></network>
+		<network name="smurf" threshold="0.5"></network>
+		<network name="neptune" threshold="0.5"></network>
 	</network>
 
-	<network name="r2l" threshold="0.2">
-		<network name="multihop" threshold="0.2"></network>
-		<network name="ftp_write" threshold="0.2"></network>
-		<network name="guess_passwd" threshold="0.2"></network>
-		<network name="spy" threshold="0.2"></network>
-		<network name="imap" threshold="0.2"></network>
-		<network name="phf" threshold="0.2"></network>
-		<network name="warezclient" threshold="0.2"></network>
-		<network name="warezmaster" threshold="0.2"></network>
+	<network name="r2l" threshold="0.5">
+		<network name="multihop" threshold="0.5"></network>
+		<network name="ftp_write" threshold="0.5"></network>
+		<network name="guess_passwd" threshold="0.5"></network>
+		<network name="spy" threshold="0.5"></network>
+		<network name="imap" threshold="0.5"></network>
+		<network name="phf" threshold="0.5"></network>
+		<network name="warezclient" threshold="0.5"></network>
+		<network name="warezmaster" threshold="0.5"></network>
 	</network>
 
-	<network name="probe" threshold="0.2">
-		<network name="ipsweep" threshold="0.2"></network>
-		<network name="nmap" threshold="0.2"></network>
-		<network name="portsweep" threshold="0.2"></network>
-		<network name="satan" threshold="0.2"></network>
+	<network name="probe" threshold="0.5">
+		<network name="ipsweep" threshold="0.5"></network>
+		<network name="nmap" threshold="0.5"></network>
+		<network name="portsweep" threshold="0.5"></network>
+		<network name="satan" threshold="0.5"></network>
 	</network>
 
-	<network name="u2r" threshold="0.2">
-		<network name="rootkit" threshold="0.2"></network>
-		<network name="buffer_overflow" threshold="0.2"></network>
-		<network name="loadmodule" threshold="0.2"></network>
-		<network name="perl" threshold="0.2"></network>
+	<network name="u2r" threshold="0.5">
+		<network name="rootkit" threshold="0.5"></network>
+		<network name="buffer_overflow" threshold="0.5"></network>
+		<network name="loadmodule" threshold="0.5"></network>
+		<network name="perl" threshold="0.5"></network>
 	</network>
 </network>

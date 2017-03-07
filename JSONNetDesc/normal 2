@@ -1,0 +1,14 @@
+{
+	"hiddenLayers": 
+		[
+			3, 
+			2
+		],
+	"input":
+		[
+			"count",
+			"logged_in",
+			"dst_bytes"
+		],
+	"success": "normal"
+}

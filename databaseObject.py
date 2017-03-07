@@ -24,7 +24,7 @@ class Database:
 			table = "allData2"
 
 		# Use all the SQL you like
-		cur.execute("SELECT " + fieldList + " FROM " + table + " ORDER BY RAND() LIMIT 100")
+		cur.execute("SELECT " + fieldList + " FROM " + table + " ORDER BY RAND() LIMIT 10000")
 
 		result_set = cur.fetchall()
 		self.db.commit()
