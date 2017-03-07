@@ -16,16 +16,19 @@ class NNTrainer:
 		fields.append(successField)
 		newArr = db.getFields(fields, dataType)
 
+		# Get each row from DB
 		for row in newArr:
 			arr = []
 
+			# Append each field to dataset
 			for field in fields:
 				if (field != successField):
 					arr.append(row[field]);
 
-			# add sample to set
+			# Add sample to set
 			data.addSample(arr,row[successField])
 
+		# Remve the success field
 		fields.pop()
 
 		return data;
@@ -36,10 +39,12 @@ class NNTrainer:
 		return t
 
 	def exportObj(self, exportObj, filename):
+		# Save any object to a file
 		exportFile = open(filename, 'w')
 		pickle.dump(exportObj, exportFile)
 
 	def importObj(self, filename):
+		# Import any object from a file
 		importFile = open(filename,'r')
 		importObj = pickle.load(importFile)
 		return importObj
