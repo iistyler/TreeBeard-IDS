@@ -1,6 +1,7 @@
 import json
 import sys
 import pprint
+import os
 
 from pybrain.tools.shortcuts import buildNetwork
 from pybrain.structure import FeedForwardNetwork, LinearLayer, SigmoidLayer, FullConnection
@@ -11,14 +12,19 @@ class NNBuilder:
         OUTPUT_NODES = 1
 
         def __init__(self, file):
+            netExists = os.path.isfile('JSONNetDesc/' + file)
 
-            with open('JSONNetDesc/exampleNetwork') as data_file:    
+            if (netExists == False):
+                print("No net description exists for " + file)
+                sys.exit()
+
+            with open('JSONNetDesc/' + file) as data_file:    
                 data = json.load(data_file)
 
-            self.name = data["name"]
             self.hiddenLayers = data["hiddenLayers"]
             self.success = data["success"]
             self.input = data["input"]
+            self.nn = None
                 
         
         def getName(self):
@@ -77,7 +83,7 @@ class NNBuilder:
             # Not sure what this does but need to call it 
             nn.sortModules()
 
-            return nn
+            self.nn = nn
 
 
 
