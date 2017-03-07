@@ -1,0 +1,15 @@
+{
+	"hiddenLayers": 
+		[
+			3, 
+			2
+		],
+	"input":
+		[
+			"dst_host_same_src_port_rate",
+			"src_bytes",
+			"srv_rerror_rate",
+			"rerror_rate"
+		],
+	"success": "probe"
+}
