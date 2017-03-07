@@ -30,7 +30,7 @@ class testingHandler:
             netName = xmlNode.get('name')
 
             # Go to next node within
-            self.addAllDict(networkDescDict, thresholdDict, netName, xmlNode)
+            self.addAllDict(networkDescDict, thresholdDict, netDict, netName, xmlNode)
 
             # Add to dict
             networkDescDict.setdefault(lastName, [])
@@ -41,7 +41,6 @@ class testingHandler:
     def fetchNet(self, name):
         fileName = "NetBinarySaves/" + name
         netExists = os.path.isfile(fileName)
-        print(netExists);
 
         if (netExists):
             # See if net was already created
@@ -96,9 +95,15 @@ class testingHandler:
 
         return returnArr;
 
+    # def testWholeNetwork(self):
+
+
     def testNet(self, net, threshold, fields, successField):
         correct = 0
         total = 0;
+        correctOfType = 0;
+        totalOfType = 0;
+        falsePositives = 0;
 
         checkData = self.fetchData(fields, successField)
 
@@ -106,19 +111,36 @@ class testingHandler:
         for row in checkData:
             result = net.activate(row[0])[0]
             expected = row[1];
+            totalOfType += expected;
 
             # Check if within threshold
-            expected -= result
-            if (abs(expected) < threshold):
+            if (expected == 1 and result > threshold):
                 correct += 1.0      # To prevent integer division
+                correctOfType += 1.0
+
+            # Check if under threshold
+            if (expected == 0 and result < threshold):
+                correct += 1.0
+
+            # Check if false positive
+            if (expected == 0 and result > threshold):
+                falsePositives += 1.0
+
             total += 1.0            # To prevent integer division
 
         # Calculate percent correctly determined
         percent = correct/total
         percent *= 100.0
 
+        # Total of type
+        percentOfTotal = 0
+        if (totalOfType != 0):
+            percentOfTotal = correctOfType/totalOfType*100
+
         print("Correct: " + str(correct) + ", inorrect: " + str(total-correct))
         print("Correctly detrmined " + str(percent) + "% of connections")
+        print("With " + str(totalOfType) + " of type " + successField + ", found " + str(correctOfType) + " of the " + str(totalOfType) + " which is " + str(percentOfTotal) + "%")
+        print("Got " + str(falsePositives) + " false positives");
 
         # Returns percent correctly determined
         return percent;
