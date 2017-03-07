@@ -8,13 +8,13 @@ class NNTrainer:
 	def __init__(self):
 		print("Created")
 
-	def createDataset(self, fields, successField, dataType):
+	def createDataset(self, fields, successField):
 		data = SupervisedDataSet(len(fields),1)
 
 		db = Database();
 
 		fields.append(successField)
-		newArr = db.getFields(fields, dataType)
+		newArr = db.getFields(fields, "test")
 
 		# Get each row from DB
 		for row in newArr:
