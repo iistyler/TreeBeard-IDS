@@ -21,7 +21,7 @@ from nnbuilder import *
 
 #----------------------------
 
-newTrainer = NNTrainer();
+newTrainer = NNTrainer()
 
 test = NNBuilder("exampleNetwork")
 nn = test.BuildNN()
