@@ -1,37 +1,124 @@
 from databaseObject import *
+from nntrainer import *
+from nnbuilder import *
+import os
 import xml.etree.ElementTree
 
 class testingHandler:
-    def __init__(self):
-        print("Created")
+    def __init__(self, fileName):
+        self.openSchema(fileName)
 
     def openSchema(self, fileName):
 
         # Setup dictionaries for XML
-        networkDict = {}
-        thresholdDict = {}
+        self.networkDescDict = {}
+        self.netDict = {}
+        self.thresholdDict = {}
 
         # Parse xml file
         xmlHead = xml.etree.ElementTree.parse("XMLSchema/" + fileName + ".xml").getroot()
+        topLayer = xmlHead.get('name')
+        self.netDict[ topLayer ] = self.fetchNet( topLayer )
 
         # add details to dicts
-        self.addAllDict(networkDict, thresholdDict, xmlHead.get('name'), xmlHead)
-        print(networkDict["dos"])
+        self.addAllDict(self.networkDescDict, self.thresholdDict, self.netDict, xmlHead.get('name'), xmlHead)
 
-    def addAllDict(self, networkDict, thresholdDict, lastName, lastNet):
+    def addAllDict(self, networkDescDict, thresholdDict, netDict, lastName, lastNet):
 
         # Add each node info into dict
         for xmlNode in lastNet.findall('network'):
             netName = xmlNode.get('name')
 
             # Go to next node within
-            self.addAllDict(networkDict, thresholdDict, netName, xmlNode)
+            self.addAllDict(networkDescDict, thresholdDict, netName, xmlNode)
 
             # Add to dict
-            networkDict.setdefault(lastName, [])
+            networkDescDict.setdefault(lastName, [])
             thresholdDict[netName] = xmlNode.get('threshold')
-            networkDict[lastName].append( netName )
+            networkDescDict[lastName].append( netName )
+            netDict[netName] = self.fetchNet( netName )
 
-# TEST
-testingH1 = testingHandler()
-testingH1.openSchema("exampleSchema");
+    def fetchNet(self, name):
+        fileName = "NetBinarySaves/" + name
+        netExists = os.path.isfile(fileName)
+        print(netExists);
+
+        if (netExists):
+            # See if net was already created
+            print("Using existing net for " + name)
+            importFile = open(fileName,'r')
+            builder = pickle.load(importFile)
+        else:
+            # Create net if it doesnt already exist
+            print("Creating net for " + name)
+            builder = NNBuilder(name)
+            builder.BuildNN()
+            net = builder.nn
+
+            netTrainer = NNTrainer()
+
+            # Create the dataset
+            print("Creating dataset for " + name)
+            testDataset = netTrainer.createDataset(builder.input, builder.success)
+
+            # Train the network
+            print("Training " + name)
+            netTrainer.trainNetwork(net, testDataset)
+
+            # Save the built net
+            print("Saving net")
+            exportFile = open(fileName, 'w')
+            pickle.dump(builder, exportFile)
+
+        return builder
+
+    def fetchData(self, fields, successField):
+        db = Database();
+
+        fields.append(successField)
+        newArr = db.getFields(fields, "test")
+        returnArr = []
+
+        # Get each row from DB
+        for row in newArr:
+            arr = []
+
+            # Append each field to dataset
+            for field in fields:
+                if (field != successField):
+                    arr.append(row[field]);
+
+            # Add sample to set
+            returnArr.append([arr, row[successField]])
+
+        # Remve the success field
+        fields.pop()
+
+        return returnArr;
+
+    def testNet(self, net, threshold, fields, successField):
+        correct = 0
+        total = 0;
+
+        checkData = self.fetchData(fields, successField)
+
+        # Test each record
+        for row in checkData:
+            result = net.activate(row[0])[0]
+            expected = row[1];
+
+            # Check if within threshold
+            expected -= result
+            if (abs(expected) < threshold):
+                correct += 1.0      # To prevent integer division
+            total += 1.0            # To prevent integer division
+
+        # Calculate percent correctly determined
+        percent = correct/total
+        percent *= 100.0
+
+        print("Correct: " + str(correct) + ", inorrect: " + str(total-correct))
+        print("Correctly detrmined " + str(percent) + "% of connections")
+
+        # Returns percent correctly determined
+        return percent;

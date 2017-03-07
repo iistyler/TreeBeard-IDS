@@ -1,7 +1,7 @@
 from nnbuilder import *
 from databaseObject import *
 from nntrainer import *
-from nnbuilder import *
+from testingHandler import *
 
 # net = NNObject("exampleNetwork");
 
@@ -19,26 +19,42 @@ from nnbuilder import *
 # for row in newArr:
 # 	print(row["dst_bytes"])
 
+#-------------
+
+# TEST
+# testingH1 = testingHandler()
+# testingH1.openSchema("exampleSchema");
+
 #----------------------------
 
-newTrainer = NNTrainer()
+# newTrainer = NNTrainer()
 
-test = NNBuilder("exampleNetwork")
-nn = test.BuildNN()
+# test = NNBuilder("exampleNetwork")
+# nn = test.BuildNN()
 
-testDataset = newTrainer.createDataset(test.input, test.success, "test")
-print("Created test dataset")
+# # Create dataset
+# testDataset = newTrainer.createDataset(test.input, test.success)
+# print("Created test dataset")
 
-t = newTrainer.trainNetwork(nn, testDataset)
-print("Trained network")
+# # Train network
+# t = newTrainer.trainNetwork(nn, testDataset)
+# print("Trained network")
 
-allDataset = newTrainer.createDataset(test.input, test.success, "all")
-print("Created all dataset")
+# # Crete testing framework
+# testHandler = testingHandler();
 
-# newTrainer.exportObj(allDataset, "temp/dataset")
-# allDataset2 = newTrainer.importObj("temp/dataset")
-# t2 = newTrainer.importObj("temp/t")
+# testHandler.testNet(nn, 0.5, test.input, test.success)
 
-t2.testOnData(dataset=allDataset2, verbose= True)
 
-# print newDataset
+#----------------------------
+
+testHandler = testingHandler("smallSchema");
+
+netBuilt = testHandler.netDict["normal"];
+testHandler.testNet(netBuilt.nn, 0.5, netBuilt.input, netBuilt.success)
+
+
+
+
+
+
