@@ -1,0 +1,17 @@
+{
+	"hiddenLayers": 
+		[
+			3, 
+			2
+		],
+	"input":
+		[
+			"ftp",
+			"ftp_data",
+			"telnet",
+			"srv_count",
+			"root_shell",
+			"dst_bytes"
+		],
+	"success": "buffer_overflow"
+}

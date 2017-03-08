@@ -1,0 +1,17 @@
+{
+	"hiddenLayers": 
+		[
+			3, 
+			2
+		],
+	"input":
+		[
+			"srv_count",
+			"count",
+			"ftp",
+			"ftp_data",
+			"telnet",
+			"other"
+		],
+	"success": "u2r"
+}

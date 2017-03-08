@@ -1,0 +1,12 @@
+{
+	"hiddenLayers": 
+		[
+			3, 
+			2
+		],
+	"input":
+		[
+			"dst_host_same_src_port_rate"
+		],
+	"success": "ipsweep"
+}

@@ -1,0 +1,16 @@
+{
+	"hiddenLayers": 
+		[
+			3, 
+			2
+		],
+	"input":
+		[
+			"dst_host_same_src_port_rate",
+			"srv_count",
+			"ftp",
+			"ftp_data",
+			"telnet"
+		],
+	"success": "loadmodule"
+}

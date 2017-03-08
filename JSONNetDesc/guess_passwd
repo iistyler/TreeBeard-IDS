@@ -1,0 +1,18 @@
+{
+	"hiddenLayers": 
+		[
+			3, 
+			2
+		],
+	"input":
+		[
+			"num_failed_logins",
+			"dst_bytes",
+			"telnet",
+			"RSTO",
+			"RSTR",
+			"S3",
+			"SF"
+		],
+	"success": "guess_passwd"
+}
