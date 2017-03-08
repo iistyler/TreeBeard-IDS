@@ -1,0 +1,13 @@
+{
+	"hiddenLayers": 
+		[
+			3, 
+			2
+		],
+	"input":
+		[
+			"dst_host_srv_serror_rate",
+			"duration"
+		],
+	"success": "spy"
+}

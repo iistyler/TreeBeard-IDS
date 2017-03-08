@@ -1,0 +1,15 @@
+{
+	"hiddenLayers": 
+		[
+			3, 
+			2
+		],
+	"input":
+		[
+			"dst_bytes",
+			"hot",
+			"root_shell",
+			"src_bytes"
+		],
+	"success": "phf"
+}

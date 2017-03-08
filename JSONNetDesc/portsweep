@@ -1,0 +1,12 @@
+{
+	"hiddenLayers": 
+		[
+			3, 
+			2
+		],
+	"input":
+		[
+			"srv_rerror_rate"
+		],
+	"success": "portsweep"
+}

@@ -1,0 +1,14 @@
+{
+	"hiddenLayers": 
+		[
+			3, 
+			2
+		],
+	"input":
+		[
+			"ecr_i",
+			"src_bytes",
+			"dst_bytes"
+		],
+	"success": "smurf"
+}

@@ -1,6 +1,6 @@
 26 nets
 
-Dos: wrong_fragment, src_bytes, land (?)
+dos: wrong_fragment, src_bytes, land (?)
 	teardop: wrong_fragment
 	back: src_bytes, dst_bytes
 	pod: wrong_fragment
@@ -17,15 +17,15 @@ probe: dst_host_same_src_port_rate, src_bytes, srv_rerror_rate, rerror_rate
 r2l: dst_bytes, duration, count, dst_host_srv_serror_rate, telnet, imap4, other, ftp, ftp_data
 	multihop: count
 	ftp_write: urgent, count
-	guess_pass: num_failed_logins, dst_bytes, telnet, flag
+	guess_passwd: num_failed_logins, dst_bytes, telnet, flag
 	spy: dst_host_srv_serror_rate, duration
 	imap: imap4, dst_host_srv_serror_rate
 	phf: dst_bytes, hot, root_shell, src_bytes
-	warez_client: (service), srv_count, srv_serror_rate, other, ftp, ftp_data
-	warez_master: dst_bytes, duration
+	warezclient: (service), srv_count, srv_serror_rate, other, ftp, ftp_data
+	warezmaster: dst_bytes, duration
 
-u2r: srv_count, count, ftp, ftp_data, telnet, other, 
+u2r: srv_count, count, ftp, ftp_data, telnet, other 
 	rootkit: srv_count, count, ftp, ftp_data, other, telnet
 	buffer_overflow: ftp, ftp_data, telnet, srv_count, root_shell, dst_bytes
-	load_module: dst_host_same_src_port_rate, srv_count, ftp, ftp_data, telnet
+	loadmodule: dst_host_same_src_port_rate, srv_count, ftp, ftp_data, telnet
 	perl: root_shell, num_root, num_shells, src_bytes

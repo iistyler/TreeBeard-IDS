@@ -1,0 +1,12 @@
+{
+	"hiddenLayers": 
+		[
+			3, 
+			2
+		],
+	"input":
+		[
+			"wrong_fragment"
+		],
+	"success": "teardrop"
+}

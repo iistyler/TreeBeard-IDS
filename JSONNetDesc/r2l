@@ -1,0 +1,20 @@
+{
+	"hiddenLayers": 
+		[
+			3, 
+			2
+		],
+	"input":
+		[
+			"dst_bytes",
+			"duration",
+			"count",
+			"dst_host_srv_serror_rate",
+			"telnet",
+			"imap4",
+			"other",
+			"ftp",
+			"ftp_data"
+		],
+	"success": "r2l"
+}

@@ -1,0 +1,14 @@
+{
+	"hiddenLayers": 
+		[
+			3, 
+			2
+		],
+	"input":
+		[
+			"land",
+			"telnet",
+			"finger"
+		],
+	"success": "a_land"
+}
