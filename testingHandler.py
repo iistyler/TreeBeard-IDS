@@ -78,7 +78,7 @@ class testingHandler:
 
         fields.append(successField)
         fields.append("id")
-        newArr = db.getFields(fields, "test", ids)
+        newArr = db.getFields(fields, "all", ids)
         returnArr = []
 
         # Get each row from DB
