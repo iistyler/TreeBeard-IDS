@@ -1,0 +1,13 @@
+{
+	"hiddenLayers": 
+		[
+			3, 
+			2
+		],
+	"input":
+		[
+			"imap4",
+			"dst_host_srv_serror_rate"
+		],
+	"success": "imap"
+}

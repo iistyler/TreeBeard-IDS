@@ -1,0 +1,15 @@
+{
+	"hiddenLayers": 
+		[
+			3, 
+			2
+		],
+	"input":
+		[
+			"root_shell",
+			"num_root",
+			"num_shells",
+			"src_bytes"
+		],
+	"success": "perl"
+}

@@ -1,0 +1,12 @@
+{
+	"hiddenLayers": 
+		[
+			3, 
+			2
+		],
+	"input":
+		[
+			"rerror_rate"
+		],
+	"success": "satan"
+}

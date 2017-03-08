@@ -14,7 +14,7 @@ class NNTrainer:
 		db = Database();
 
 		fields.append(successField)
-		newArr = db.getFields(fields, "test")
+		newArr = db.getFields(fields, "test", None)
 
 		# Get each row from DB
 		for row in newArr:

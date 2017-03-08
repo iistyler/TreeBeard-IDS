@@ -10,8 +10,19 @@ class Database:
                      passwd="",  		  # your password
                      db="KDD")            # name of the data base
 
-	def getFields(self, fields, tableType):
+	def getFields(self, fields, tableType, ids):
 		cur = self.db.cursor(MySQLdb.cursors.DictCursor)
+		addString = ""
+
+		# Should not import any data
+		if (ids != None and len(ids) <= 0):
+			addString = " WHERE 1=2 "
+
+		# Add all IDs
+		elif (ids != None ):
+			addString = " WHERE id = " + str(ids[0])
+			for identifier in ids[1:]:
+				addString += " OR id = " + str(identifier)
 
 		fieldList = fields[0]
 		for field in fields[1:]:
@@ -24,7 +35,7 @@ class Database:
 			table = "allData2"
 
 		# Use all the SQL you like
-		cur.execute("SELECT " + fieldList + " FROM " + table + " ORDER BY RAND() LIMIT 10000")
+		cur.execute("SELECT " + fieldList + " FROM " + table + addString + " LIMIT 10000" ) #ORDER BY RAND()
 
 		result_set = cur.fetchall()
 		self.db.commit()

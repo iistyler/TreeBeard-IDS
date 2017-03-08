@@ -1,0 +1,14 @@
+{
+	"hiddenLayers": 
+		[
+			3, 
+			2
+		],
+	"input":
+		[
+			"REJ",
+			"RSTO",
+			"S0"
+		],
+	"success": "neptune"
+}

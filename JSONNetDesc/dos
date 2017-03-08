@@ -1,0 +1,14 @@
+{
+	"hiddenLayers": 
+		[
+			3, 
+			2
+		],
+	"input":
+		[
+			"wrong_fragment",
+			"src_bytes",
+			"land"
+		],
+	"success": "dos"
+}

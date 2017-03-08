@@ -18,7 +18,9 @@ class testingHandler:
         # Parse xml file
         xmlHead = xml.etree.ElementTree.parse("XMLSchema/" + fileName + ".xml").getroot()
         topLayer = xmlHead.get('name')
+        self.head = topLayer
         self.netDict[ topLayer ] = self.fetchNet( topLayer )
+        self.thresholdDict[ topLayer ] = xmlHead.get('threshold')
 
         # add details to dicts
         self.addAllDict(self.networkDescDict, self.thresholdDict, self.netDict, xmlHead.get('name'), xmlHead)
@@ -71,11 +73,12 @@ class testingHandler:
 
         return builder
 
-    def fetchData(self, fields, successField):
+    def fetchData(self, fields, successField, ids):
         db = Database();
 
         fields.append(successField)
-        newArr = db.getFields(fields, "test")
+        fields.append("id")
+        newArr = db.getFields(fields, "test", ids)
         returnArr = []
 
         # Get each row from DB
@@ -84,28 +87,44 @@ class testingHandler:
 
             # Append each field to dataset
             for field in fields:
-                if (field != successField):
+                if (field != successField and field != "id"):
                     arr.append(row[field]);
 
             # Add sample to set
-            returnArr.append([arr, row[successField]])
+            returnArr.append([arr, row[successField], row["id"]])
 
         # Remve the success field
+        fields.pop()
         fields.pop()
 
         return returnArr;
 
-    # def testWholeNetwork(self):
+    def testWholeNetwork(self):
+        self.testEach(self.head, None)
 
+    def testEach(self, name, arr):
+        netBuilt = self.netDict[name]
+        threshold = self.thresholdDict[name]
 
-    def testNet(self, net, threshold, fields, successField):
+        print("\nTesting " + name + " with a success at " + netBuilt.success)
+        arr = self.testNet(netBuilt.nn, threshold, netBuilt.input, netBuilt.success, arr)
+
+        if name in self.networkDescDict.keys():
+
+            netNames = self.networkDescDict[name]
+            for netName in netNames:
+                self.testEach(netName, arr)
+
+    def testNet(self, net, threshold, fields, successField, ids):
         correct = 0
-        total = 0;
-        correctOfType = 0;
-        totalOfType = 0;
-        falsePositives = 0;
+        total = 0
+        correctOfType = 0
+        totalOfType = 0
+        falsePositives = 0
+        sendLower = []
+        threshold = float(threshold)
 
-        checkData = self.fetchData(fields, successField)
+        checkData = self.fetchData(fields, successField, ids)
 
         # Test each record
         for row in checkData:
@@ -113,23 +132,34 @@ class testingHandler:
             expected = row[1];
             totalOfType += expected;
 
-            # Check if within threshold
+            # Check if within threshold - correctly identified what looking for
             if (expected == 1 and result > threshold):
                 correct += 1.0      # To prevent integer division
                 correctOfType += 1.0
 
-            # Check if under threshold
+                if (successField != "normal"):
+                    sendLower.append(row[2])
+
             if (expected == 0 and result < threshold):
                 correct += 1.0
 
+                if (successField == "normal"):
+                    sendLower.append(row[2])
+
             # Check if false positive
-            if (expected == 0 and result > threshold):
+            if (expected == 0 and result > threshold and successField == "normal"):
+                falsePositives += 1.0
+
+            if (expected == 1 and result < threshold and successField != "normal"):
                 falsePositives += 1.0
 
             total += 1.0            # To prevent integer division
 
         # Calculate percent correctly determined
-        percent = correct/total
+        if (total > 0):
+            percent = correct/total
+        else:
+            percent = 0
         percent *= 100.0
 
         # Total of type
@@ -137,10 +167,11 @@ class testingHandler:
         if (totalOfType != 0):
             percentOfTotal = correctOfType/totalOfType*100
 
-        print("Correct: " + str(correct) + ", inorrect: " + str(total-correct))
+        print("Correct: " + str(correct) + ", incorrect: " + str(total-correct) + ", of a total of: " + str(total))
         print("Correctly detrmined " + str(percent) + "% of connections")
         print("With " + str(totalOfType) + " of type " + successField + ", found " + str(correctOfType) + " of the " + str(totalOfType) + " which is " + str(percentOfTotal) + "%")
-        print("Got " + str(falsePositives) + " false positives");
+        print("Got " + str(falsePositives) + " false positives")
+        print("Possible threats found: " + str( len(sendLower) ))
 
         # Returns percent correctly determined
-        return percent;
+        return sendLower;
