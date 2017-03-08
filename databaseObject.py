@@ -20,9 +20,10 @@ class Database:
 
 		# Add all IDs
 		elif (ids != None ):
-			addString = " WHERE id = " + str(ids[0])
+			addString = " WHERE id IN (" + str(ids[0])
 			for identifier in ids[1:]:
-				addString += " OR id = " + str(identifier)
+				addString += " , " + str(identifier)
+			addString += ") "
 
 		fieldList = fields[0]
 		for field in fields[1:]:
