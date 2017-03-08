@@ -8,7 +8,14 @@
 		[
 			"count",
 			"logged_in",
-			"dst_bytes"
+			"dst_bytes",
+			"http",
+			"smtp",
+			"private",
+			"domain_u",
+			"other",
+			"ftp_data",
+			"urp_i"
 		],
 	"success": "normal"
 }

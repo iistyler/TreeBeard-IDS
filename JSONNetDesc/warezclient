@@ -1,0 +1,16 @@
+{
+	"hiddenLayers": 
+		[
+			3, 
+			2
+		],
+	"input":
+		[
+			"srv_count",
+			"srv_serror_rate",
+			"other",
+			"ftp",
+			"ftp_data"
+		],
+	"success": "warezclient"
+}

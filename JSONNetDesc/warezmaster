@@ -1,0 +1,13 @@
+{
+	"hiddenLayers": 
+		[
+			3, 
+			2
+		],
+	"input":
+		[
+			"ftp_data",
+			"duration"
+		],
+	"success": "warezmaster"
+}
