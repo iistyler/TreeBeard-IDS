@@ -1,6 +1,8 @@
 #!/usr/bin/python
 import MySQLdb
 
+testOnly = 1
+
 class Database:
 
 	def __init__(self):
@@ -10,12 +12,22 @@ class Database:
                      passwd="",  		  # your password
                      db="KDD")            # name of the data base
 
+	# Get all IDs in table
 	def getAllIds(self):
 		cur = self.db.cursor(MySQLdb.cursors.DictCursor)
-		cur.execute("SELECT id FROM testData")
+		table = "allData2"
+
+		# override if you dont want to use the full database
+		if (testOnly == 1):
+			table = "testData"
+
+		# Query for all IDs
+		cur.execute("SELECT id FROM " + table)
 		result_set = cur.fetchall()
 		self.db.commit()
 		returnData = []
+
+		# Put all ids into array
 		for row in result_set:
 			returnData.append(row['id'])
 
@@ -37,12 +49,14 @@ class Database:
 				addString += " , " + str(identifier)
 			addString += ") "
 
+		# Add each field
 		fieldList = fields[0]
 		for field in fields[1:]:
 			fieldList += ","
 			fieldList += field
 
-		if (tableType == "test"):
+		# Check type of data and override to avoid full database
+		if (tableType == "test" or testOnly == 1):
 			table = "testData"
 		else:
 			table = "allData2"
