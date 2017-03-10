@@ -1,8 +1,8 @@
 from nnbuilder import *
 from databaseObject import *
 from nntrainer import *
-from testingHandlerMultithreaded import *
-# from testingHandler import *
+# from testingHandlerMultithreaded import *
+from testingHandler import *
 import numpy as np
 
 testHandler = testingHandler("smallSchema");
