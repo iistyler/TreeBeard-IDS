@@ -10,6 +10,18 @@ class Database:
                      passwd="",  		  # your password
                      db="KDD")            # name of the data base
 
+	def getAllIds(self):
+		cur = self.db.cursor(MySQLdb.cursors.DictCursor)
+		cur.execute("SELECT id FROM testData")
+		result_set = cur.fetchall()
+		self.db.commit()
+		returnData = []
+		for row in result_set:
+			returnData.append(row['id'])
+
+		return returnData
+
+
 	def getFields(self, fields, tableType, ids):
 		cur = self.db.cursor(MySQLdb.cursors.DictCursor)
 		addString = ""

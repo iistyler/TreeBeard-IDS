@@ -3,8 +3,12 @@ from nntrainer import *
 from nnbuilder import *
 import os
 import xml.etree.ElementTree
-import numpy as np
 import time
+import Queue
+import multiprocessing
+import numpy as np
+
+THREADS = 2
 
 class testingHandler:
     def __init__(self, fileName):
@@ -117,18 +121,17 @@ class testingHandler:
             for netName in netNames:
                 self.testEach(netName, arr)
 
-    def testNet(self, net, threshold, fields, successField, ids):
+    def testNetInner(self, x, return_dict, net, threshold, fields, successField, ids):
         correct = 0
         total = 0
         correctOfType = 0
         totalOfType = 0
         falsePositives = 0
         sendLower = []
-        threshold = float(threshold)
 
+        # Fetch data from DB
         checkData = self.fetchData(fields, successField, ids)
 
-        start = time.time()
         # Test each record
         for row in checkData:
             result = net.activate(row[0])[0]
@@ -157,6 +160,53 @@ class testingHandler:
                 falsePositives += 1.0
 
             total += 1.0            # To prevent integer division
+
+        returnData = [correct, total, correctOfType, totalOfType, falsePositives, sendLower]
+        return_dict[x] = returnData
+
+    def testNet(self, net, threshold, fields, successField, ids):
+        correct = 0
+        total = 0
+        correctOfType = 0
+        totalOfType = 0
+        falsePositives = 0
+        sendLower = []
+        x = 0
+        threshold = float(threshold)
+        db = Database();
+
+        # Fetch ids for splitting
+        if (ids == None):
+            ids = db.getAllIds()
+
+        idsSet = np.array_split(ids, THREADS)
+
+        start = time.time()
+
+        # Setup return data from threads
+        manager = multiprocessing.Manager()
+        return_dict = manager.dict()
+        processes = []
+
+        for idsInnerSet in idsSet:
+            x += 1
+            # testNetInner(net, threshold, fields, successField, idsInnerSet)
+            thread = multiprocessing.Process(target = self.testNetInner , args = (x, return_dict, net, threshold, fields, successField, idsInnerSet))
+            thread.start()
+            processes.append(thread)
+
+        for i in range(THREADS):
+            processes[i].join()
+
+        for threadReturnData in return_dict.values():
+            # print(threadReturnData)
+            correct += threadReturnData[0]
+            total += threadReturnData[1]
+            correctOfType += threadReturnData[2]
+            totalOfType += threadReturnData[3]
+            falsePositives += threadReturnData[4]
+            sendLower += threadReturnData[5]
+
         end = time.time()
 
         # Calculate percent correctly determined
