@@ -188,18 +188,20 @@ class testingHandler:
         return_dict = manager.dict()
         processes = []
 
+        # Create thread for each set of work
         for idsInnerSet in idsSet:
             x += 1
-            # testNetInner(net, threshold, fields, successField, idsInnerSet)
+            # Delegate work to new process
             thread = multiprocessing.Process(target = self.testNetInner , args = (x, return_dict, net, threshold, fields, successField, idsInnerSet))
             thread.start()
             processes.append(thread)
 
+        # Wait for processes to finish
         for i in range(THREADS):
             processes[i].join()
 
+        # Add back all the return data
         for threadReturnData in return_dict.values():
-            # print(threadReturnData)
             correct += threadReturnData[0]
             total += threadReturnData[1]
             correctOfType += threadReturnData[2]
@@ -221,6 +223,7 @@ class testingHandler:
         if (totalOfType != 0):
             percentOfTotal = correctOfType/totalOfType*100
 
+        # Print results
         print("Correct: " + str(correct) + ", incorrect: " + str(total-correct) + ", of a total of: " + str(total))
         print("Correctly detrmined " + str(percent) + "% of connections")
         print("With " + str(totalOfType) + " of type " + successField + ", found " + str(correctOfType) + " of the " + str(totalOfType) + " which is " + str(percentOfTotal) + "%")
