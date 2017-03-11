@@ -1,0 +1,1 @@
+{"hiddenLayers":[1, 1, 2],"input":["count","logged_in","dst_bytes","http","smtp","private","domain_u","other","ftp_data","urp_i"],"success": "normal"}

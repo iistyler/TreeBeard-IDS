@@ -57,9 +57,9 @@ class Database:
 
 		# Check type of data and override to avoid full database
 		if (tableType == "test" or testOnly == 1):
-			table = "testData"
+			table = "NBTrain"
 		else:
-			table = "allData2"
+			table = "NBTest"
 
 		# Use all the SQL you like
 		cur.execute("SELECT " + fieldList + " FROM " + table + addString) #ORDER BY RAND()

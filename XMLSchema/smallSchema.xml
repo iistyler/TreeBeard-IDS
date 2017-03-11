@@ -1,3 +1,2 @@
-<network name="normal" threshold="0.5">
-	<network name="probe" threshold="0.5"></network>
+<network name="normal2" threshold="0.5">
 </network>
