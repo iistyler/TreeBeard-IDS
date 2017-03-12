@@ -175,3 +175,13 @@ class testingHandler:
 
         # Returns percent correctly determined
         return sendLower;
+
+
+if __name__ == "__main__":
+    
+    if len(sys.argv) < 2:
+        print "Usage: python testingHandler.py [xml schema]"
+        sys.exit()
+
+    testHandler = testingHandler("justNormal")
+    testHandler.testWholeNetwork()
