@@ -4,7 +4,7 @@ import pprint
 import os
 
 from pybrain.tools.shortcuts import buildNetwork
-from pybrain.structure import FeedForwardNetwork, LinearLayer, SigmoidLayer, FullConnection
+from pybrain.structure import FeedForwardNetwork, LinearLayer, SigmoidLayer, FullConnection, BiasUnit
 
 class NNBuilder:
 
@@ -20,7 +20,8 @@ class NNBuilder:
 
             with open('JSONNetDesc/' + file) as data_file:    
                 data = json.load(data_file)
-
+            
+            self.name = file
             self.hiddenLayers = data["hiddenLayers"]
             self.success = data["success"]
             self.input = data["input"]
@@ -45,7 +46,7 @@ class NNBuilder:
 
             # Set up the Layers
             inputLayer = LinearLayer(len(self.getInput()))
-            outputLayer = LinearLayer(self.OUTPUT_NODES)
+            outputLayer = SigmoidLayer(self.OUTPUT_NODES)
             
             # Add to NN
             nn.addInputModule(inputLayer)
@@ -61,6 +62,13 @@ class NNBuilder:
                 nn.addModule(hlayer)
                 hiddenLayers.append(hlayer)
 
+            # Get the bias for each hidden layer
+            biasList = []
+            for i in range(0, len(topology)):
+                bias = BiasUnit(name = "bias" + str(i))
+                nn.addModule(bias)
+                biasList.append(bias)
+
             # Manually connect input layer to first hidden, 
             # and output layer to last hidden. Then connect all other
             # hidden layers
@@ -69,14 +77,26 @@ class NNBuilder:
 
             # If there was more than 1 hidden layer connect them together
             hiddenConList = []
+            biasConList = []
             if len(topology) > 1:
                 for i in range(0, len(topology) - 1):
+                    
+                    # Connect current layer to next layer
                     connection = FullConnection(hiddenLayers[i], hiddenLayers[i + 1])
                     hiddenConList.append(connection)
+
+                    # Make connection for bias 
+                    biasConList.append(FullConnection(biasList[i], hiddenLayers[i]))
+            
+            # Since we only looped to  < len(topology) - 1, have to get the last layer
+            last = len(topology) - 1
+            biasConList.append(FullConnection(biasList[last], hiddenLayers[last]))
 
             # Add connections to the NN
             nn.addConnection(input2hidden)
             for i in hiddenConList:
+                nn.addConnection(i)
+            for i in biasConList:
                 nn.addConnection(i)
             nn.addConnection(hidden2output)
 
@@ -84,6 +104,7 @@ class NNBuilder:
             nn.sortModules()
 
             self.nn = nn
+            return nn
 
 
 
@@ -106,5 +127,5 @@ if __name__ == '__main__':
     nn = test.BuildNN()
 
     print("\nPrinting NN Structure:")
-    print(nn)
+    print nn
 
