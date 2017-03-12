@@ -46,12 +46,12 @@ class testingHandler:
 
         if (netExists):
             # See if net was already created
-            print("Using existing net for " + name)
+            #print("Using existing net for " + name)
             importFile = open(fileName,'r')
             builder = pickle.load(importFile)
         else:
             # Create net if it doesnt already exist
-            print("Creating net for " + name)
+            #print("Creating net for " + name)
             builder = NNBuilder(name)
             builder.BuildNN()
             net = builder.nn
@@ -183,5 +183,5 @@ if __name__ == "__main__":
         print "Usage: python testingHandler.py [xml schema]"
         sys.exit()
 
-    testHandler = testingHandler("justNormal")
+    testHandler = testingHandler(sys.argv[1])
     testHandler.testWholeNetwork()
