@@ -1,8 +1,6 @@
 #!/usr/bin/python
 import MySQLdb
 
-testOnly = 1
-
 class Database:
 
 	def __init__(self):
@@ -15,11 +13,7 @@ class Database:
 	# Get all IDs in table
 	def getAllIds(self):
 		cur = self.db.cursor(MySQLdb.cursors.DictCursor)
-		table = "allData2"
-
-		# override if you dont want to use the full database
-		if (testOnly == 1):
-			table = "testData"
+		table = "NBTest"
 
 		# Query for all IDs
 		cur.execute("SELECT id FROM " + table)
@@ -56,7 +50,7 @@ class Database:
 			fieldList += field
 
 		# Check type of data and override to avoid full database
-		if (tableType == "test" or testOnly == 1):
+		if (tableType == "train"):
 			table = "NBTrain"
 		else:
 			table = "NBTest"
