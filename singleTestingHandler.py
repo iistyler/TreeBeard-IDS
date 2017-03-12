@@ -32,10 +32,13 @@ class SingleTestingHandler(testingHandler.testingHandler):
         self.attackList = neededSuccessFields
 
         # Get the needed data 
-        data = self.fetchData(neededInputFields, neededSuccessFields, [1])
+        data = self.fetchData(neededInputFields, neededSuccessFields, [1, 222])
         
         # Loop through each connection and test it 
         for i in data:
+            print "--------"
+            print i
+            print "--------"
             self.testNetworkOnConn(self.netDict, i)
 
     
@@ -47,9 +50,68 @@ class SingleTestingHandler(testingHandler.testingHandler):
             Conn Type, Net Predicted Conn Type, Time Through Net, Levels Traversed
             Output Values of Net At each level
         """
-        
-        self.testSingleNet(netDict["normal"], connection)
+        total_time = 0
+        net_structure = self.networkDescDict
+        subnets = net_structure["normal"]
+        current_net_list = [ "normal" ]
+        layers_traversed = 0
+        conn_type = self.getConnType(connection)
+        predicted_conn_type = []
 
+        # Loop through all layers
+        for i in range(0, 3):
+            
+            # Get the current layers name list
+            current_net_list = subnets
+            subnets = []
+
+            # If there are no subnets to check, that means a normal connection 
+            # got through the first layer, and the lower nets think it's normal
+            if len(current_net_list) == 0:
+                break
+
+            # If we don't need to check subnets
+            done = 0
+
+            # Loop through current nets in level. If they find something, add
+            # their subnets to the next level to check.
+            for net_name in current_net_list:
+                result = self.testSingleNet(netDict[net_name], connection)
+                expected = result[1]
+                time = result[2]
+
+                # Add to running time
+                total_time += time
+
+                # Net has flagged the connection
+                if result == expected:
+
+                    # Always add the predicted connection type 
+                    predicted_conn_type.append(net_name)
+
+                    # If its the first layer we leave
+                    if i == 0:
+                        done = 1
+                        break
+                    # If it wasn't the last layer, move down    
+                    elif i == 1:
+                        subnets += net_structure[net_name]
+            
+                # The first layer thinks its malicious
+                if result != expected and i == 0:
+                    subnets += net_structure[net_name]
+
+            layers_traversed += 1
+
+            # If we are done, don't check lower layers
+            if done == 1:
+                break
+        
+    
+        print "Time = " + str(total_time)
+        print "Connection was: " + conn_type
+        print "Traversed " + str(layers_traversed) + " layers"
+        print "Predicted connection types: " + str(predicted_conn_type)
 
 
     def testSingleNet(self, currentNet, connection):
@@ -66,12 +128,17 @@ class SingleTestingHandler(testingHandler.testingHandler):
 
         # Get the type of the connection
         conn_type = self.getConnType(connection)
-    
-        print "Time: " + str(total_time)
-        print "Net Checked for: " + currentNet.success
-        print "Connection was of type: " + conn_type
-        print "NN resulted in value: " + str(result)
         
+        # Use the expected value to find out if this is the right output
+        expected = data_list[1]
+         
+        # Normal connection so expected to be 1
+        if result < 0.5 and result >= 0:
+            return (0, expected, total_time)
+        elif result >= 0.5 and result <= 1:
+            return (1, expected, total_time)
+        else:
+            raise ValueError('Output from NN was not in range [0, 1]')
 
     
     def extractData(self, input_list, success, connection):
