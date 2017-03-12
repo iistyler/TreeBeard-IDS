@@ -32,13 +32,10 @@ class SingleTestingHandler(testingHandler.testingHandler):
         self.attackList = neededSuccessFields
 
         # Get the needed data 
-        data = self.fetchData(neededInputFields, neededSuccessFields, [1, 222])
+        data = self.fetchData(neededInputFields, neededSuccessFields, None)
         
         # Loop through each connection and test it 
         for i in data:
-            print "--------"
-            print i
-            print "--------"
             self.testNetworkOnConn(self.netDict, i)
 
     
@@ -52,17 +49,15 @@ class SingleTestingHandler(testingHandler.testingHandler):
         """
         total_time = 0
         net_structure = self.networkDescDict
-        subnets = net_structure["normal"]
         current_net_list = [ "normal" ]
         layers_traversed = 0
         conn_type = self.getConnType(connection)
         predicted_conn_type = []
 
+
         # Loop through all layers
         for i in range(0, 3):
-            
-            # Get the current layers name list
-            current_net_list = subnets
+                
             subnets = []
 
             # If there are no subnets to check, that means a normal connection 
@@ -72,22 +67,25 @@ class SingleTestingHandler(testingHandler.testingHandler):
 
             # If we don't need to check subnets
             done = 0
+            
 
             # Loop through current nets in level. If they find something, add
             # their subnets to the next level to check.
             for net_name in current_net_list:
+
                 result = self.testSingleNet(netDict[net_name], connection)
                 expected = result[1]
                 time = result[2]
 
                 # Add to running time
                 total_time += time
+            
+                # expected may have 2 values, ie: DOS and Neptune
 
                 # Net has flagged the connection
-                if result == expected:
+                if result[0] == expected:
 
                     # Always add the predicted connection type 
-                    predicted_conn_type.append(net_name)
 
                     # If its the first layer we leave
                     if i == 0:
@@ -96,6 +94,8 @@ class SingleTestingHandler(testingHandler.testingHandler):
                     # If it wasn't the last layer, move down    
                     elif i == 1:
                         subnets += net_structure[net_name]
+                    else:
+                        predicted_conn_type.append(net_name)    
             
                 # The first layer thinks its malicious
                 if result != expected and i == 0:
@@ -103,15 +103,23 @@ class SingleTestingHandler(testingHandler.testingHandler):
 
             layers_traversed += 1
 
+            # Get the current layers name list
+            current_net_list = subnets
+            subnets = []
+
             # If we are done, don't check lower layers
             if done == 1:
                 break
         
-    
-        print "Time = " + str(total_time)
-        print "Connection was: " + conn_type
-        print "Traversed " + str(layers_traversed) + " layers"
-        print "Predicted connection types: " + str(predicted_conn_type)
+        if len(predicted_conn_type) == 0:
+            predicted_conn_type.append("normal")
+
+        if len(predicted_conn_type) > 1:
+            sys.stderr.write("Connection had more than 1 expected. Dumping info...")
+            sys.stderr.write(connection)
+            sys.stderr.write(predicted_conn_type)
+
+        print conn_type + "," + predicted_conn_type[0] + "," + str(total_time) + "," + str(layers_traversed)
 
 
     def testSingleNet(self, currentNet, connection):
@@ -132,10 +140,11 @@ class SingleTestingHandler(testingHandler.testingHandler):
         # Use the expected value to find out if this is the right output
         expected = data_list[1]
          
+
         # Normal connection so expected to be 1
-        if result < 0.5 and result >= 0:
+        if result < 0.5:
             return (0, expected, total_time)
-        elif result >= 0.5 and result <= 1:
+        elif result >= 0.5:
             return (1, expected, total_time)
         else:
             raise ValueError('Output from NN was not in range [0, 1]')
@@ -148,17 +157,18 @@ class SingleTestingHandler(testingHandler.testingHandler):
             holds the list of the input value and the success value
         """
         input_value_list = []
+        success_val = 0
 
         for k, v in connection.iteritems():
-            
+           
             # If the key matches, put its value in the list
             if k in input_list:
                 input_value_list.append(v)
             
             if k == success:
-                success_val = v
+                success_val = 1
 
-        return (input_value_list, v)
+        return (input_value_list, success_val)
 
 
     def fetchData(self, fields, success, ids):
