@@ -55,12 +55,12 @@ class SingleTestingHandler(testingHandler.testingHandler):
         predicted_conn_type = []
 
 
-        print "\n\nConnection is type: " + str(conn_type)
+        #print "\n\nConnection is type: " + str(conn_type)
 
         # Loop through all layers
         for i in range(0, 3):
                 
-            print "Layer " + str(i)
+            #print "Layer " + str(i)
             subnets = []
 
             # If there are no subnets to check, that means a normal connection 
@@ -76,7 +76,7 @@ class SingleTestingHandler(testingHandler.testingHandler):
             # their subnets to the next level to check.
             for net_name in current_net_list:
 
-                print "Testing net: " + net_name
+                #print "Testing net: " + net_name
 
                 result = self.testSingleNet(netDict[net_name], connection)
                 expected = result[1]
@@ -122,9 +122,9 @@ class SingleTestingHandler(testingHandler.testingHandler):
         #    sys.stderr.write("Connection had more than 1 expected. Dumping info...")
         #    sys.stderr.write(connection)
         #    sys.stderr.write(predicted_conn_type)
-        print "Predicted: " + str(predicted_conn_type)
+        #print "Predicted: " + str(predicted_conn_type)
 
-       # print conn_type + "," + predicted_conn_type[0] + "," + str(total_time) + "," + str(layers_traversed)
+        print str(conn_type) + "," + predicted_conn_type[0] + "," + str(total_time) + "," + str(layers_traversed)
 
 
     def testSingleNet(self, currentNet, connection):
@@ -142,7 +142,7 @@ class SingleTestingHandler(testingHandler.testingHandler):
         # Use the expected value to find out if this is the right output
         expected = data_list[1]
         
-        print "Net output: " + str(result) + "\t Expected: " + str(expected)
+        #print "Net output: " + str(result) + "\t Expected: " + str(expected)
         
         # Normal connection so expected to be 1
         if result < 0.5:
@@ -207,7 +207,7 @@ class SingleTestingHandler(testingHandler.testingHandler):
             # success criteria.
             success_list.append(v.success)
 
-        print success_list
+        #print success_list
         return (input_list, success_list)
 
 
