@@ -32,7 +32,7 @@ class SingleTestingHandler(testingHandler.testingHandler):
         self.attackList = neededSuccessFields
 
         # Get the needed data 
-        data = self.fetchData(neededInputFields, neededSuccessFields, None)
+        data = self.fetchData(neededInputFields, neededSuccessFields, [1, 222, 100, 2345, 12222])
         
         # Loop through each connection and test it 
         for i in data:
@@ -55,9 +55,12 @@ class SingleTestingHandler(testingHandler.testingHandler):
         predicted_conn_type = []
 
 
+        #print "\n\nConnection is type: " + str(conn_type)
+
         # Loop through all layers
         for i in range(0, 3):
                 
+            #print "Layer " + str(i)
             subnets = []
 
             # If there are no subnets to check, that means a normal connection 
@@ -73,6 +76,8 @@ class SingleTestingHandler(testingHandler.testingHandler):
             # their subnets to the next level to check.
             for net_name in current_net_list:
 
+                #print "Testing net: " + net_name
+
                 result = self.testSingleNet(netDict[net_name], connection)
                 expected = result[1]
                 time = result[2]
@@ -80,12 +85,8 @@ class SingleTestingHandler(testingHandler.testingHandler):
                 # Add to running time
                 total_time += time
             
-                # expected may have 2 values, ie: DOS and Neptune
-
                 # Net has flagged the connection
-                if result[0] == expected:
-
-                    # Always add the predicted connection type 
+                if result[0] == expected and expected == 1:
 
                     # If its the first layer we leave
                     if i == 0:
@@ -97,9 +98,12 @@ class SingleTestingHandler(testingHandler.testingHandler):
                     else:
                         predicted_conn_type.append(net_name)    
             
-                # The first layer thinks its malicious
-                if result != expected and i == 0:
+                # If the first level has an output of 0, have to move on
+                elif result[0] == expected and expected == 0 and i == 0:
                     subnets += net_structure[net_name]
+
+                #if result != expected and i == 0:
+                #    subnets += net_structure[net_name]
 
             layers_traversed += 1
 
@@ -114,12 +118,13 @@ class SingleTestingHandler(testingHandler.testingHandler):
         if len(predicted_conn_type) == 0:
             predicted_conn_type.append("normal")
 
-        if len(predicted_conn_type) > 1:
-            sys.stderr.write("Connection had more than 1 expected. Dumping info...")
-            sys.stderr.write(connection)
-            sys.stderr.write(predicted_conn_type)
+        #if len(predicted_conn_type) > 1:
+        #    sys.stderr.write("Connection had more than 1 expected. Dumping info...")
+        #    sys.stderr.write(connection)
+        #    sys.stderr.write(predicted_conn_type)
+        #print "Predicted: " + str(predicted_conn_type)
 
-        print conn_type + "," + predicted_conn_type[0] + "," + str(total_time) + "," + str(layers_traversed)
+        print str(conn_type) + "," + predicted_conn_type[0] + "," + str(total_time) + "," + str(layers_traversed)
 
 
     def testSingleNet(self, currentNet, connection):
@@ -134,13 +139,11 @@ class SingleTestingHandler(testingHandler.testingHandler):
         end_time = time.time()
         total_time = end_time - start_time
 
-        # Get the type of the connection
-        conn_type = self.getConnType(connection)
-        
         # Use the expected value to find out if this is the right output
         expected = data_list[1]
-         
-
+        
+        #print "Net output: " + str(result) + "\t Expected: " + str(expected)
+        
         # Normal connection so expected to be 1
         if result < 0.5:
             return (0, expected, total_time)
@@ -160,14 +163,14 @@ class SingleTestingHandler(testingHandler.testingHandler):
         success_val = 0
 
         for k, v in connection.iteritems():
-           
+
             # If the key matches, put its value in the list
             if k in input_list:
                 input_value_list.append(v)
             
             if k == success:
-                success_val = 1
-
+                success_val = v
+        
         return (input_value_list, success_val)
 
 
@@ -191,7 +194,7 @@ class SingleTestingHandler(testingHandler.testingHandler):
         
         input_list = []
         success_list = []
-
+        
         for k, v in netDict.iteritems():
 
             # Collect all the new features and add to main list
@@ -204,6 +207,7 @@ class SingleTestingHandler(testingHandler.testingHandler):
             # success criteria.
             success_list.append(v.success)
 
+        #print success_list
         return (input_list, success_list)
 
 
@@ -212,9 +216,12 @@ class SingleTestingHandler(testingHandler.testingHandler):
             This function extracts the connection type by finding the dict value that 
             corresponds to an attack, and has the value of 1.
         """
+        ctype = []
         for k, v in connection.iteritems():
             if k in self.attackList and v == 1:
-                return k
+                ctype.append(k)
+
+        return ctype
 
 
 if __name__ == '__main__':
