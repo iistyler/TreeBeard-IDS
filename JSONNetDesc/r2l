@@ -16,5 +16,7 @@
 			"ftp",
 			"ftp_data"
 		],
+	"typeRuns": 2,
+	"normRuns": 1,
 	"success": "r2l"
 }

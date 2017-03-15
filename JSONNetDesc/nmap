@@ -8,5 +8,7 @@
 		[
 			"src_bytes"
 		],
+	"typeRuns": 15,
+	"normRuns": 1,
 	"success": "nmap"
 }

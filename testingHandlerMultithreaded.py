@@ -10,6 +10,8 @@ import numpy as np
 
 THREADS = 2
 
+NEWONLY = 0
+
 class testingHandler:
     def __init__(self, fileName):
         self.openSchema(fileName)
@@ -50,7 +52,7 @@ class testingHandler:
         fileName = "NetBinarySaves/" + name
         netExists = os.path.isfile(fileName)
 
-        if (netExists):
+        if (netExists and NEWONLY != 1):
             # See if net was already created
             print("Using existing net for " + name)
             importFile = open(fileName,'r')
@@ -66,10 +68,15 @@ class testingHandler:
 
             # Create the dataset
             print("Creating dataset for " + name)
-            testDataset = netTrainer.createDataset(builder.input, builder.success)
+            
+            testDataset = netTrainer.createDataset(builder.input, builder.success, builder.typeRuns, builder.normRuns)
 
             # Train the network
             print("Training " + name)
+
+            # netTrainer.trainNetwork(net, testDataset)
+            # netTrainer.trainNetwork(net, testDataset)
+            # netTrainer.trainNetwork(net, testDataset2)
             netTrainer.trainNetwork(net, testDataset)
 
             # Save the built net
@@ -84,7 +91,7 @@ class testingHandler:
 
         fields.append(successField)
         fields.append("id")
-        newArr = db.getFields(fields, "test", ids)
+        newArr = db.getFields(fields, "test", ids, None)
         returnArr = []
 
         # Get each row from DB
@@ -156,8 +163,12 @@ class testingHandler:
             if (expected == 0 and result > threshold and successField == "normal"):
                 falsePositives += 1.0
 
+            # if (expected == 0 and result > threshold and successField != "normal"):
+                # print(str(expected) + " - " + str(result))
+
             if (expected == 1 and result < threshold and successField != "normal"):
                 falsePositives += 1.0
+                # print(str(expected) + " - " + str(result))
 
             total += 1.0            # To prevent integer division
 

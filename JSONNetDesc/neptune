@@ -10,5 +10,7 @@
 			"RSTO",
 			"S0"
 		],
+	"typeRuns": 2,
+	"normRuns": 1,
 	"success": "neptune"
 }

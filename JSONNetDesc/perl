@@ -11,5 +11,7 @@
 			"num_shells",
 			"src_bytes"
 		],
+	"typeRuns": 2,
+	"normRuns": 1,
 	"success": "perl"
 }

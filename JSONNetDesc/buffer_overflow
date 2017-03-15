@@ -13,5 +13,7 @@
 			"root_shell",
 			"dst_bytes"
 		],
+	"typeRuns": 2,
+	"normRuns": 1,
 	"success": "buffer_overflow"
 }

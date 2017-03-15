@@ -8,13 +8,28 @@ class NNTrainer:
 	def __init__(self):
 		print("Created")
 
-	def createDataset(self, fields, successField):
+	def createDataset(self, fields, successField, typeRuns, normRuns):
 		data = SupervisedDataSet(len(fields),1)
 
 		db = Database();
 
 		fields.append(successField)
-		newArr = db.getFields(fields, "train", None)
+		newArr = []
+
+		if (successField != "normal"):
+			for x in range(normRuns):
+				print "Ran norm"
+				newArr += db.getFields(fields, "train", None, "normal")
+			for x in range(typeRuns):
+				print "Ran type " + successField
+				newArr += db.getFields(fields, "train", None, successField)
+		else:
+			for x in range(typeRuns):
+				print "Ran norm"
+				newArr += db.getFields(fields, "train", None, "normal")
+			for x in range(normRuns):
+				print "Ran all"
+				newArr += db.getFields(fields, "train", None, None)
 
 		# Get each row from DB
 		for row in newArr:

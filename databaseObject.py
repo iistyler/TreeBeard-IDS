@@ -28,7 +28,7 @@ class Database:
 		return returnData
 
 
-	def getFields(self, fields, tableType, ids):
+	def getFields(self, fields, tableType, ids, success):
 		cur = self.db.cursor(MySQLdb.cursors.DictCursor)
 		addString = ""
 
@@ -42,6 +42,9 @@ class Database:
 			for identifier in ids[1:]:
 				addString += " , " + str(identifier)
 			addString += ") "
+
+		if (success != None):
+			addString = " WHERE " + success + " = 1 "
 
 		# Add each field
 		fieldList = fields[0]

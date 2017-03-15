@@ -9,5 +9,7 @@
 			"ftp_data",
 			"duration"
 		],
+	"typeRuns": 2,
+	"normRuns": 1,
 	"success": "warezmaster"
 }

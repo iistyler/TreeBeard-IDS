@@ -11,5 +11,7 @@
 			"srv_rerror_rate",
 			"rerror_rate"
 		],
+	"typeRuns": 2,
+	"normRuns": 1,
 	"success": "probe"
 }

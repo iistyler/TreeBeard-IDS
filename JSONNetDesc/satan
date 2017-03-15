@@ -6,7 +6,11 @@
 		],
 	"input":
 		[
-			"rerror_rate"
+			"rerror_rate",
+			"diff_srv_rate",
+			"tcp"
 		],
+	"typeRuns": 3,
+	"normRuns": 1,
 	"success": "satan"
 }
