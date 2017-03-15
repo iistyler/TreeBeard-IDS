@@ -9,5 +9,7 @@
 			"dst_host_srv_serror_rate",
 			"duration"
 		],
+	"typeRuns": 2,
+	"normRuns": 1,
 	"success": "spy"
 }

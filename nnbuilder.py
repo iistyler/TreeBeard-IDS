@@ -25,6 +25,8 @@ class NNBuilder:
             self.hiddenLayers = data["hiddenLayers"]
             self.success = data["success"]
             self.input = data["input"]
+            self.typeRuns = data["typeRuns"]
+            self.normRuns = data["normRuns"]
             self.nn = None
                 
         

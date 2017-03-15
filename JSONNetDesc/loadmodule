@@ -12,5 +12,7 @@
 			"ftp_data",
 			"telnet"
 		],
+	"typeRuns": 2,
+	"normRuns": 1,
 	"success": "loadmodule"
 }

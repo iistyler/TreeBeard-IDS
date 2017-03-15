@@ -10,5 +10,7 @@
 			"src_bytes",
 			"land"
 		],
+	"typeRuns": 2,
+	"normRuns": 1,
 	"success": "dos"
 }

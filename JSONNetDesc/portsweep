@@ -8,5 +8,7 @@
 		[
 			"srv_rerror_rate"
 		],
+	"typeRuns": 3,
+	"normRuns": 1,
 	"success": "portsweep"
 }
