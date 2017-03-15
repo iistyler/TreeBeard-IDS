@@ -1,4 +1,4 @@
-<network name="normal" threshold="0.5">
+<network name="normal" threshold="2.0"> <!-- 0.993 -->
 	<network name="dos" threshold="0.5">
 		<network name="teardrop" threshold="0.5"></network>
 		<network name="back" threshold="0.5"></network>
@@ -23,7 +23,7 @@
 		<network name="ipsweep" threshold="0.5"></network>
 		<network name="nmap" threshold="0.5"></network>
 		<network name="portsweep" threshold="0.5"></network>
-		<network name="satan" threshold="0.5"></network>
+		<network name="satan" threshold="0.8"></network>
 	</network>
 
 	<network name="u2r" threshold="0.5">

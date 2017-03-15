@@ -9,5 +9,7 @@
 			"imap4",
 			"dst_host_srv_serror_rate"
 		],
+	"typeRuns": 2,
+	"normRuns": 1,
 	"success": "imap"
 }

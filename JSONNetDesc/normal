@@ -6,16 +6,15 @@
 		],
 	"input":
 		[
-			"count",
-			"logged_in",
 			"dst_bytes",
-			"http",
-			"smtp",
-			"private",
-			"domain_u",
-			"other",
-			"ftp_data",
-			"urp_i"
+			"logged_in",
+			"same_srv_rate",
+			"diff_srv_rate",
+			"dst_host_serror_rate",
+			"dst_host_same_srv_rate",
+			"dst_host_diff_srv_rate"
 		],
+	"typeRuns": 2,
+	"normRuns": 1,
 	"success": "normal"
 }

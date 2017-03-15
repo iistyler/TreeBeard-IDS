@@ -32,7 +32,7 @@ class SingleTestingHandler(testingHandler.testingHandler):
         self.attackList = neededSuccessFields
 
         # Get the needed data 
-        data = self.fetchData(neededInputFields, neededSuccessFields, [1, 222, 100, 2345, 12222])
+        data = self.fetchData(neededInputFields, neededSuccessFields, None)
         
         # Loop through each connection and test it 
         for i in data:
@@ -124,7 +124,7 @@ class SingleTestingHandler(testingHandler.testingHandler):
         #    sys.stderr.write(predicted_conn_type)
         #print "Predicted: " + str(predicted_conn_type)
 
-        print str(conn_type) + "," + predicted_conn_type[0] + "," + str(total_time) + "," + str(layers_traversed)
+        print str(conn_type).replace(",", "*") + "," + predicted_conn_type[0] + "," + str(total_time) + "," + str(layers_traversed)
 
 
     def testSingleNet(self, currentNet, connection):
@@ -138,6 +138,7 @@ class SingleTestingHandler(testingHandler.testingHandler):
         result = nn.activate(data_list[0])[0]
         end_time = time.time()
         total_time = end_time - start_time
+        threshold = float(self.thresholdDict[currentNet.name])
 
         # Use the expected value to find out if this is the right output
         expected = data_list[1]
@@ -145,9 +146,9 @@ class SingleTestingHandler(testingHandler.testingHandler):
         #print "Net output: " + str(result) + "\t Expected: " + str(expected)
         
         # Normal connection so expected to be 1
-        if result < 0.5:
+        if result < threshold:
             return (0, expected, total_time)
-        elif result >= 0.5:
+        elif result >= threshold:
             return (1, expected, total_time)
         else:
             raise ValueError('Output from NN was not in range [0, 1]')
@@ -186,7 +187,7 @@ class SingleTestingHandler(testingHandler.testingHandler):
         fields = fields + success
         fields.append("id")
         
-        data = db.getFields(fields, "test", ids)
+        data = db.getFields(fields, "test", ids, None)
         return data
 
     

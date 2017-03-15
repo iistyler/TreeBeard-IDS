@@ -8,5 +8,7 @@
 		[
 			"wrong_fragment"
 		],
+	"typeRuns": 2,
+	"normRuns": 1,
 	"success": "pod"
 }
