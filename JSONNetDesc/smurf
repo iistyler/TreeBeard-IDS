@@ -10,5 +10,7 @@
 			"src_bytes",
 			"dst_bytes"
 		],
+	"typeRuns": 2,
+	"normRuns": 1,
 	"success": "smurf"
 }

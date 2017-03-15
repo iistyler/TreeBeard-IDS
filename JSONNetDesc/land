@@ -6,9 +6,9 @@
 		],
 	"input":
 		[
-			"land",
-			"telnet",
-			"finger"
+			"land"
 		],
+	"typeRuns": 300,
+	"normRuns": 1,
 	"success": "a_land"
 }

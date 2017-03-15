@@ -5,7 +5,7 @@ from testingHandlerMultithreaded import *
 # from testingHandler import *
 import numpy as np
 
-testHandler = testingHandler("smallSchema");
+testHandler = testingHandler("exampleSchema");
 testHandler.testWholeNetwork();
 
 
