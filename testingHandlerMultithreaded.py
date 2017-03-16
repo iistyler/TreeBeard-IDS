@@ -134,6 +134,7 @@ class testingHandler:
         correctOfType = 0
         totalOfType = 0
         falsePositives = 0
+        normalAsThreat = 0
         sendLower = []
 
         # Fetch data from DB
@@ -142,8 +143,8 @@ class testingHandler:
         # Test each record
         for row in checkData:
             result = net.activate(row[0])[0]
-            expected = row[1];
-            totalOfType += expected;
+            expected = row[1]
+            totalOfType += expected
 
             # Check if within threshold - correctly identified what looking for
             if (expected == 1 and result > threshold):
@@ -164,15 +165,22 @@ class testingHandler:
                 falsePositives += 1.0
 
             # if (expected == 0 and result > threshold and successField != "normal"):
-                # print(str(expected) + " - " + str(result))
+            #     print(str(expected) + " - " + str(result))
 
             if (expected == 1 and result < threshold and successField != "normal"):
                 falsePositives += 1.0
                 # print(str(expected) + " - " + str(result))
 
+            # Check for threats classified as normal
+            if (successField != "normal" and expected == 0 and result > threshold):
+                normalAsThreat += 1.0
+
+            if (successField == "normal" and expected == 1 and result < threshold):
+                normalAsThreat += 1.0
+
             total += 1.0            # To prevent integer division
 
-        returnData = [correct, total, correctOfType, totalOfType, falsePositives, sendLower]
+        returnData = [correct, total, correctOfType, totalOfType, falsePositives, sendLower, normalAsThreat]
         return_dict[x] = returnData
 
     def testNet(self, net, threshold, fields, successField, ids):
@@ -181,6 +189,7 @@ class testingHandler:
         correctOfType = 0
         totalOfType = 0
         falsePositives = 0
+        normalAsThreat = 0
         sendLower = []
         x = 0
         threshold = float(threshold)
@@ -219,6 +228,7 @@ class testingHandler:
             totalOfType += threadReturnData[3]
             falsePositives += threadReturnData[4]
             sendLower += threadReturnData[5]
+            normalAsThreat += threadReturnData[6]
 
         end = time.time()
 
@@ -226,21 +236,27 @@ class testingHandler:
         if (total > 0):
             percent = correct/total
         else:
-            percent = 0
+            percent = 1
         percent *= 100.0
 
         # Total of type
         percentOfTotal = 0
         if (totalOfType != 0):
             percentOfTotal = correctOfType/totalOfType*100
+        else:
+            percentOfTotal = 100
+
+        quality = (percent + percentOfTotal) / 2
 
         # Print results
         print("Correct: " + str(correct) + ", incorrect: " + str(total-correct) + ", of a total of: " + str(total))
-        print("Correctly detrmined " + str(percent) + "% of connections")
+        print("Correctly determined " + str(percent) + "% of connections")
         print("With " + str(totalOfType) + " of type " + successField + ", found " + str(correctOfType) + " of the " + str(totalOfType) + " which is " + str(percentOfTotal) + "%")
-        print("Got " + str(falsePositives) + " false positives")
+        print("Number of threats classified as normal: " + str(falsePositives))
+        print("Number of normals classified as threats: " + str(normalAsThreat))
         print("Possible threats found: " + str( len(sendLower) ))
         print("Took " + str(end - start) + " seconds")
+        print("Quality of net " + str(int(quality)) + "%")
 
         # Returns percent correctly determined
         return sendLower;

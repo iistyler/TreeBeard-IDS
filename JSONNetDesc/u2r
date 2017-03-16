@@ -13,7 +13,7 @@
 			"telnet",
 			"other"
 		],
-	"typeRuns": 2,
+	"typeRuns": 200,
 	"normRuns": 1,
 	"success": "u2r"
 }
