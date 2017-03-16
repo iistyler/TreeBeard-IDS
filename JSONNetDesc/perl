@@ -6,12 +6,12 @@
 		],
 	"input":
 		[
-			"root_shell",
-			"num_root",
 			"num_shells",
-			"src_bytes"
+			"num_file_creations",
+			"root_shell",
+			"count"
 		],
-	"typeRuns": 2,
+	"typeRuns": 200,
 	"normRuns": 1,
 	"success": "perl"
 }

@@ -6,13 +6,10 @@
 		],
 	"input":
 		[
-			"dst_host_same_src_port_rate",
-			"srv_count",
-			"ftp",
-			"ftp_data",
-			"telnet"
+			"SF",
+			"logged_in"
 		],
-	"typeRuns": 2,
+	"typeRuns": 1000,
 	"normRuns": 1,
 	"success": "loadmodule"
 }

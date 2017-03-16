@@ -1,22 +1,11 @@
 {
 	"hiddenLayers": 
 		[
-			50, 
+			45, 
 			25
 		],
 	"input":
 		[
-			"SF",
-			"S0",
-			"REJ",
-			"RSTR",
-			"RSTO",
-			"SH",
-			"S1",
-			"S2",
-			"RSTOS0",
-			"S3",
-			"OTH",
 			"duration",
 			"src_bytes",
 			"dst_bytes",

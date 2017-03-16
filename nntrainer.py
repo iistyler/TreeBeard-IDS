@@ -18,17 +18,17 @@ class NNTrainer:
 
 		if (successField != "normal"):
 			for x in range(normRuns):
-				print "Ran norm"
-				newArr += db.getFields(fields, "train", None, "normal")
+				# print "Ran norm"
+				newArr += db.getFields(fields, "train", None, None)
 			for x in range(typeRuns):
-				print "Ran type " + successField
+				# print "Ran type " + successField
 				newArr += db.getFields(fields, "train", None, successField)
 		else:
 			for x in range(typeRuns):
-				print "Ran norm"
+				# print "Ran norm"
 				newArr += db.getFields(fields, "train", None, "normal")
 			for x in range(normRuns):
-				print "Ran all"
+				# print "Ran all"
 				newArr += db.getFields(fields, "train", None, None)
 
 		# Get each row from DB

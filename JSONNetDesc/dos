@@ -6,6 +6,9 @@
 		],
 	"input":
 		[
+			"tcp",
+			"S0",
+			"serror_rate"
 			"wrong_fragment",
 			"src_bytes",
 			"land"
