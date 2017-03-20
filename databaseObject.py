@@ -1,14 +1,15 @@
 #!/usr/bin/python
 import MySQLdb
+from databaseLogin import *
 
 class Database:
 
 	def __init__(self):
 
-		self.db = MySQLdb.connect(host="localhost",    # your host, usually localhost
-                     user="root",         # your username
-                     passwd="",  		  # your password
-                     db="KDD")            # name of the data base
+		self.db = MySQLdb.connect(host=DBhost,    # your host, usually localhost
+                     user=DBuser,         # your username
+                     passwd=DBpassword,  		  # your password
+                     db=DBdb)            # name of the data base
 
 	# Get all IDs in table
 	def getAllIds(self):
