@@ -8,7 +8,7 @@ import Queue
 import multiprocessing
 import numpy as np
 
-THREADS = 2
+THREADS = 5
 
 NEWONLY = 0
 
@@ -74,9 +74,6 @@ class testingHandler:
             # Train the network
             print("Training " + name)
 
-            # netTrainer.trainNetwork(net, testDataset)
-            # netTrainer.trainNetwork(net, testDataset)
-            # netTrainer.trainNetwork(net, testDataset2)
             netTrainer.trainNetwork(net, testDataset)
 
             # Save the built net
@@ -163,9 +160,10 @@ class testingHandler:
             # Check if false positive
             if (expected == 0 and result > threshold and successField == "normal"):
                 falsePositives += 1.0
+                # print str(expected) + " - " + str(result)
 
-            # if (expected == 0 and result > threshold and successField != "normal"):
-            #     print(str(expected) + " - " + str(result))
+            #if (expected == 0 and result > threshold and successField != "normal"):
+                #print(str(expected) + " - " + str(result))
 
             if (expected == 1 and result < threshold and successField != "normal"):
                 falsePositives += 1.0
@@ -249,8 +247,9 @@ class testingHandler:
         quality = (percent + percentOfTotal) / 2
 
         # Print results
+	print("Threshold: " + str(threshold));
         print("Correct: " + str(correct) + ", incorrect: " + str(total-correct) + ", of a total of: " + str(total))
-        print("Correctly determined " + str(percent) + "% of connections")
+	print("Correctly determined " + str(percent) + "% of connections")
         print("With " + str(totalOfType) + " of type " + successField + ", found " + str(correctOfType) + " of the " + str(totalOfType) + " which is " + str(percentOfTotal) + "%")
         print("Number of threats classified as normal: " + str(falsePositives))
         print("Number of normals classified as threats: " + str(normalAsThreat))

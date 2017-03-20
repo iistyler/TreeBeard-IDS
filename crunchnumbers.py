@@ -16,7 +16,7 @@ try:
     reader = csv.reader(f)
     
     for row in reader:
-        # total_time += float(row[2])
+        total_time += float(row[2])
         lastRow = eval('[' + row[0].replace("*", ",") + ']')[0]
         # print( str(lastRow) + " : " + row[1])
 
