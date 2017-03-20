@@ -14,7 +14,7 @@ class Database:
 	# Get all IDs in table
 	def getAllIds(self):
 		cur = self.db.cursor(MySQLdb.cursors.DictCursor)
-		table = "NBTest"
+		table = "TestData"
 
 		# Query for all IDs
 		cur.execute("SELECT id FROM " + table)
@@ -55,9 +55,9 @@ class Database:
 
 		# Check type of data and override to avoid full database
 		if (tableType == "train"):
-			table = "NBTrain"
+			table = "TrainData"
 		else:
-			table = "NBTest"
+			table = "TestData"
 
 		# Use all the SQL you like
 		cur.execute("SELECT " + fieldList + " FROM " + table + addString) #ORDER BY RAND()
