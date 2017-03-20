@@ -18,7 +18,7 @@ try:
     for row in reader:
         # total_time += float(row[2])
         lastRow = eval('[' + row[0].replace("*", ",") + ']')[0]
-        print( str(lastRow) + " : " + row[1])
+        # print( str(lastRow) + " : " + row[1])
 
         if row[1] in lastRow:
             correct += 1

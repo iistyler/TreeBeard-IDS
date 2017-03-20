@@ -147,9 +147,9 @@ class SingleTestingHandler(testingHandler.testingHandler):
         
         # Normal connection so expected to be 1
         if result < threshold:
-            return (0, expected, total_time)
+            return (0, expected, total_time, result)
         elif result >= threshold:
-            return (1, expected, total_time)
+            return (1, expected, total_time, result)
         else:
             raise ValueError('Output from NN was not in range [0, 1]')
 
