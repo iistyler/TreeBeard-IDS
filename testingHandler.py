@@ -62,7 +62,7 @@ class testingHandler:
 
             # Create the dataset
             print("Creating dataset for " + name)
-            testDataset = netTrainer.createDataset(builder.input, builder.success)
+            testDataset = netTrainer.createDataset(builder.input, builder.success, builder.typeRuns, builder.normRuns)
 
             # Train the network
             print("Training " + name)
