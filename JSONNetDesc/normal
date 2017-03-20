@@ -1,7 +1,6 @@
 {
 	"hiddenLayers": 
 		[
-			50, 
 			25
 		],
 	"input":
@@ -55,7 +54,7 @@
 			"dst_host_srv_serror_rate",
 			"dst_host_rerror_rate"
 		],
-	"typeRuns": 1,
+	"typeRuns": 0,
 	"normRuns": 1,
 	"success": "normal"
 }

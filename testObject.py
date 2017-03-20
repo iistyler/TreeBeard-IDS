@@ -4,8 +4,9 @@ from nntrainer import *
 from testingHandlerMultithreaded import *
 # from testingHandler import *
 import numpy as np
+import sys
 
-testHandler = testingHandler("exampleSchema");
+testHandler = testingHandler(sys.argv[1]);
 testHandler.testWholeNetwork();
 
 
