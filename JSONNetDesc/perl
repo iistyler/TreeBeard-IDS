@@ -11,7 +11,7 @@
 			"root_shell",
 			"count"
 		],
-	"typeRuns": 200,
+	"typeRuns": 5,
 	"normRuns": 1,
 	"success": "perl"
 }
