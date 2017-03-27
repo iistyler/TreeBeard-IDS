@@ -1,0 +1,5 @@
+<network name="normal" threshold="0.9"> <!-- 0.993 -->  <!-- 0.877 -->
+	<network name="dos" threshold="0.5">
+		<network name="smurf" threshold="0.5"></network>
+	</network>
+</network>

@@ -9,7 +9,7 @@
 			"SF",
 			"logged_in"
 		],
-	"typeRuns": 1000,
+	"typeRuns": 5,
 	"normRuns": 1,
 	"success": "loadmodule"
 }

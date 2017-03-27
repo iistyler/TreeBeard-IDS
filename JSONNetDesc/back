@@ -1,7 +1,6 @@
 {
 	"hiddenLayers": 
 		[
-			3, 
 			2
 		],
 	"input":
@@ -10,6 +9,6 @@
 			"dst_bytes"
 		],
 	"typeRuns": 2,
-	"normRuns": 1,
+	"normRuns": 2,
 	"success": "back"
 }
