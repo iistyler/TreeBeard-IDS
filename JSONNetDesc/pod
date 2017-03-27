@@ -1,14 +1,14 @@
 {
 	"hiddenLayers": 
 		[
-			3, 
+			3,
 			2
 		],
 	"input":
 		[
 			"wrong_fragment"
 		],
-	"typeRuns": 2,
-	"normRuns": 1,
+	"typeRuns": 5,
+	"normRuns": 5,
 	"success": "pod"
 }

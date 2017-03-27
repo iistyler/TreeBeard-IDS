@@ -1,2 +1,41 @@
-<network name="nmap" threshold="0.5">
+<network name="ipsweep" threshold="0.5"></network>
+
+<!-- <network name="normal" threshold="0.9">
+    <network name="dos" threshold="0.5">
+        <network name="teardrop" threshold="0.5"></network>
+        <network name="back" threshold="0.5"></network>
+        <network name="pod" threshold="0.5"></network>
+        <network name="land" threshold="0.5"></network>
+        <network name="smurf" threshold="0.5"></network>
+        <network name="neptune" threshold="0.5"></network>
+    </network>
+
+    <network name="r2l" threshold="0.5">
+        <network name="multihop" threshold="0.5"></network>
+        <network name="ftp_write" threshold="0.5"></network>
+        <network name="guess_passwd" threshold="0.5"></network>
+        <network name="spy" threshold="0.5"></network>
+        <network name="imap" threshold="0.5"></network>
+        <network name="phf" threshold="0.5"></network>
+        <network name="warezclient" threshold="0.5"></network>
+        <network name="warezmaster" threshold="0.5"></network>
+    </network>
 </network>
+
+
+<network name="multihop" threshold="0.5"></network>
+<network name="ftp_write" threshold="0.5"></network>
+<network name="guess_passwd" threshold="0.5"></network>
+<network name="spy" threshold="0.5"></network>
+<network name="imap" threshold="0.5"></network>
+<network name="phf" threshold="0.5"></network>
+<network name="warezclient" threshold="0.5"></network>
+<network name="warezmaster" threshold="0.5"></network>
+
+
+<network name="teardrop" threshold="0.5"></network>
+<network name="back" threshold="0.5"></network>
+<network name="pod" threshold="0.5"></network>
+<network name="land" threshold="0.5"></network>
+<network name="smurf" threshold="0.5"></network>
+<network name="neptune" threshold="0.5"></network> -->
