@@ -125,7 +125,7 @@ class SingleTestingHandler(testingHandler.testingHandler):
         #    sys.stderr.write(predicted_conn_type)
         #print "Predicted: " + str(predicted_conn_type)
 
-        sys.stdout.write(str(conn_type).replace(",", "*") + "," + predicted_conn_type[0] + "," + str(total_time) + "," + str(layers_traversed), + ",")
+        sys.stdout.write(str(conn_type).replace(",", "*") + "," + predicted_conn_type[0] + "," + str(total_time) + "," + str(layers_traversed) + ",")
         
         for k, v in results_dict.iteritems():
             sys.stdout.write(str(k) + "=" + '{0:.6f}'.format(v) + ";")
