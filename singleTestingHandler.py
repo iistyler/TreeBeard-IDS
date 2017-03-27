@@ -53,7 +53,7 @@ class SingleTestingHandler(testingHandler.testingHandler):
         layers_traversed = 0
         conn_type = self.getConnType(connection)
         predicted_conn_type = []
-
+        results_dict = {}
 
         #print "\n\nConnection is type: " + str(conn_type)
 
@@ -81,6 +81,7 @@ class SingleTestingHandler(testingHandler.testingHandler):
                 result = self.testSingleNet(netDict[net_name], connection)
                 expected = result[1]
                 time = result[2]
+                results_dict[net_name] = result[3]
 
                 # Add to running time
                 total_time += time
@@ -124,7 +125,13 @@ class SingleTestingHandler(testingHandler.testingHandler):
         #    sys.stderr.write(predicted_conn_type)
         #print "Predicted: " + str(predicted_conn_type)
 
-        print str(conn_type).replace(",", "*") + "," + predicted_conn_type[0] + "," + str(total_time) + "," + str(layers_traversed)
+        sys.stdout.write(str(conn_type).replace(",", "*") + "," + predicted_conn_type[0] + "," + str(total_time) + "," + str(layers_traversed), + ",")
+        
+        for k, v in results_dict.iteritems():
+            sys.stdout.write(str(k) + "=" + '{0:.6f}'.format(v) + ";")
+
+        sys.stdout.write("\n")
+        sys.stdout.flush()
 
 
     def testSingleNet(self, currentNet, connection):
