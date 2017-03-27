@@ -8,7 +8,7 @@
 		[
 			"dst_host_same_src_port_rate"
 		],
-	"typeRuns": 2,
-	"normRuns": 1,
+	"typeRuns": 15,
+	"normRuns": 10,
 	"success": "ipsweep"
 }

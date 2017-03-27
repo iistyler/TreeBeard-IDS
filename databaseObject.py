@@ -45,7 +45,7 @@ class Database:
 			addString += ") "
 
 		if (success != None):
-			addString = " WHERE " + success + " = 1 "
+			addString = " WHERE " + success + " = 1"
 
 		# Add each field
 		fieldList = fields[0]
@@ -56,11 +56,12 @@ class Database:
 		# Check type of data and override to avoid full database
 		if (tableType == "train"):
 			table = "TrainData"
+			# addString += " LIMIT 1000"
 		else:
 			table = "TestData"
 
 		# Use all the SQL you like
-		cur.execute("SELECT " + fieldList + " FROM " + table + addString) #ORDER BY RAND()
+		cur.execute("SELECT " + fieldList + " FROM " + table + addString ) #ORDER BY RAND()
 
 		result_set = cur.fetchall()
 		self.db.commit()

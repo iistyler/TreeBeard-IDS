@@ -1,7 +1,6 @@
 {
 	"hiddenLayers": 
 		[
-			3, 
 			2
 		],
 	"input":
@@ -9,7 +8,7 @@
 			"imap4",
 			"dst_host_srv_serror_rate"
 		],
-	"typeRuns": 2,
-	"normRuns": 1,
+	"typeRuns": 100,
+	"normRuns": 100,
 	"success": "imap"
 }

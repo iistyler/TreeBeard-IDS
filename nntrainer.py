@@ -3,6 +3,7 @@ from databaseObject import *
 from pybrain.datasets import SupervisedDataSet
 from pybrain.supervised import BackpropTrainer
 import pickle
+from time import gmtime, strftime
 
 class NNTrainer:
 	def __init__(self):
@@ -49,8 +50,12 @@ class NNTrainer:
 		return data;
 
 	def trainNetwork(self, net, dataset):
-		t = BackpropTrainer(net, dataset, learningrate = 0.01, momentum = 0.99, verbose = False)
-		t.train()
+		print("Started Training: " + strftime("%Y-%m-%d %H:%M:%S", gmtime()))
+
+		t = BackpropTrainer(net, dataset, learningrate = 0.01, momentum = 0, verbose = False)
+		t.trainEpochs(epochs=1)
+
+		print("Finished Training: " + strftime("%Y-%m-%d %H:%M:%S", gmtime()))
 		return t
 
 	def exportObj(self, exportObj, filename):
