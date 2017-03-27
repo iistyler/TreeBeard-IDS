@@ -6,7 +6,7 @@ import xml.etree.ElementTree
 import numpy as np
 import time
 import testingHandler
-
+import sys
 
 
 class SingleTestingHandler(testingHandler.testingHandler):
@@ -227,5 +227,5 @@ class SingleTestingHandler(testingHandler.testingHandler):
 
 if __name__ == '__main__':
 
-    test = SingleTestingHandler("exampleSchema")
+    test = SingleTestingHandler(sys.argv[1])
     test.testWholeNetwork()
