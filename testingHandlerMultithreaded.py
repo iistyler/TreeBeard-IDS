@@ -8,7 +8,7 @@ import Queue
 import multiprocessing
 import numpy as np
 
-THREADS = 5
+THREADS = 3
 
 NEWONLY = 0
 
@@ -136,6 +136,8 @@ class testingHandler:
 
         # Fetch data from DB
         checkData = self.fetchData(fields, successField, ids)
+        blah = 0
+        blah2 = 0
 
         # Test each record
         for row in checkData:
@@ -143,38 +145,47 @@ class testingHandler:
             expected = row[1]
             totalOfType += expected
 
-            # Check if within threshold - correctly identified what looking for
-            if (expected == 1 and result > threshold):
-                correct += 1.0      # To prevent integer division
+            # Guess is whether not it is believed to be malicious
+            if result >= threshold:
+                guess = 1
+            else:
+                guess = 0
+
+            # Flip normals
+            if successField == "normal":
+                if guess == 0:
+                    sendGuess = 1
+                elif guess == 1:
+                    sendGuess = 0
+            else:
+                sendGuess = guess
+
+            # Net believes malicious
+            if sendGuess == 1:
+                sendLower.append(row[2])
+
+            # net believes malicious and is
+            if guess == 1 and expected == 1:
+                correct += 1.0
                 correctOfType += 1.0
 
-                if (successField != "normal"):
-                    sendLower.append(row[2])
-
-            if (expected == 0 and result < threshold):
+            # net believes not malicious and isnt
+            if guess == 0 and expected == 0:
                 correct += 1.0
 
-                if (successField == "normal"):
-                    sendLower.append(row[2])
-
-            # Check if false positive
-            if (expected == 0 and result > threshold and successField == "normal"):
-                falsePositives += 1.0
-                # print str(expected) + " - " + str(result)
-
-            #if (expected == 0 and result > threshold and successField != "normal"):
-                #print(str(expected) + " - " + str(result))
-
-            if (expected == 1 and result < threshold and successField != "normal"):
-                falsePositives += 1.0
-                # print(str(expected) + " - " + str(result))
-
-            # Check for threats classified as normal
-            if (successField != "normal" and expected == 0 and result > threshold):
+            # net belivies malicious but is not
+            if guess == 1 and expected == 0:
                 normalAsThreat += 1.0
 
-            if (successField == "normal" and expected == 1 and result < threshold):
-                normalAsThreat += 1.0
+            # net believes not malicious but is
+            if guess == 0 and expected == 1:
+                falsePositives += 1.0
+
+            # Normal has reversed stats
+            if successField == "normal":
+                tempFalse = falsePositives
+                falsePositives = normalAsThreat
+                normalAsThreat = tempFalse
 
             total += 1.0            # To prevent integer division
 
