@@ -1,8 +1,14 @@
+# Database Login info 
+databaseLogin.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
 temp/*
+
+# Vim files
+*.swp
 
 # C extensions
 *.so

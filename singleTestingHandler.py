@@ -53,7 +53,7 @@ class SingleTestingHandler(testingHandler.testingHandler):
         layers_traversed = 0
         conn_type = self.getConnType(connection)
         predicted_conn_type = []
-
+        results_dict = {}
 
         #print "\n\nConnection is type: " + str(conn_type)
 
@@ -118,8 +118,6 @@ class SingleTestingHandler(testingHandler.testingHandler):
         #    sys.stderr.write(connection)
         #    sys.stderr.write(predicted_conn_type)
         #print "Predicted: " + str(predicted_conn_type)
-
-
         print str(conn_type).replace(",", "*") + "," + str(predicted_conn_type).replace(",", "*") + "," + str(total_time) + "," + str(layers_traversed)
 
 
