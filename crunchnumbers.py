@@ -1,6 +1,9 @@
 import csv
 import sys
 
+def common_elements(list1, list2):
+    return list(set(list1) & set(list2))
+
 correct = 0
 incorrect = 0
 false_normal_conn = 0
@@ -18,21 +21,20 @@ try:
     for row in reader:
         total_time += float(row[2])
         lastRow = eval('[' + row[0].replace("*", ",") + ']')[0]
-        # print( str(lastRow) + " : " + row[1])
 
-        if row[1] in lastRow:
+        row[1] = eval('[' + row[1].replace("*", ",") + ']')[0]
+        print( str(lastRow) + " : " + str(row[1])  )
+
+        if len(common_elements(lastRow, row[1])) > 0:
             correct += 1
         else:
             incorrect += 1
 
             # Predicted Normal
-            if row[1] == "normal":
+            if "normal" in row[1]:
                 false_normal_conn += 1
-
             else:
                 false_malic_conn += 1
-
-
 
         if row[3] == '3':
             three_layer += 1
