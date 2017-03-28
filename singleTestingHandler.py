@@ -59,6 +59,7 @@ class SingleTestingHandler(testingHandler.testingHandler):
 
         # Loop through all layers
         for i in range(0, 3):
+
                 
             #print "Layer " + str(i)
             subnets = []
@@ -77,43 +78,37 @@ class SingleTestingHandler(testingHandler.testingHandler):
             for net_name in current_net_list:
 
                 #print "Testing net: " + net_name
-
                 result = self.testSingleNet(netDict[net_name], connection)
                 expected = result[1]
                 time = result[2]
+                guess = result[0]
+
+                # Flip normal actions so that the result reflects that result == expected
+                # means it should go down a layer
+                if i == 0:
+                    if guess == 1:
+                        guess = 0
+                    elif guess == 0:
+                        guess = 1
 
                 # Add to running time
                 total_time += time
             
                 # Net has flagged the connection
-                if result[0] == expected and expected == 1:
+                # thinks its malicious
+                if (guess == 1):
 
-                    # If its the first layer we leave
-                    if i == 0:
-                        done = 1
-                        break
                     # If it wasn't the last layer, move down    
-                    elif i == 1:
+                    if i == 0 or i == 1:
                         subnets += net_structure[net_name]
                     else:
-                        predicted_conn_type.append(net_name)    
-            
-                # If the first level has an output of 0, have to move on
-                elif result[0] == expected and expected == 0 and i == 0:
-                    subnets += net_structure[net_name]
-
-                #if result != expected and i == 0:
-                #    subnets += net_structure[net_name]
+                        predicted_conn_type.append(net_name)
 
             layers_traversed += 1
 
             # Get the current layers name list
             current_net_list = subnets
             subnets = []
-
-            # If we are done, don't check lower layers
-            if done == 1:
-                break
         
         if len(predicted_conn_type) == 0:
             predicted_conn_type.append("normal")
@@ -124,12 +119,14 @@ class SingleTestingHandler(testingHandler.testingHandler):
         #    sys.stderr.write(predicted_conn_type)
         #print "Predicted: " + str(predicted_conn_type)
 
-        print str(conn_type).replace(",", "*") + "," + predicted_conn_type[0] + "," + str(total_time) + "," + str(layers_traversed)
+
+        print str(conn_type).replace(",", "*") + "," + str(predicted_conn_type).replace(",", "*") + "," + str(total_time) + "," + str(layers_traversed)
 
 
     def testSingleNet(self, currentNet, connection):
          
         # Get needed data
+
         data_list = self.extractData(currentNet.input, currentNet.success, connection)
         nn = currentNet.nn
 
@@ -143,7 +140,7 @@ class SingleTestingHandler(testingHandler.testingHandler):
         # Use the expected value to find out if this is the right output
         expected = data_list[1]
         
-        #print "Net output: " + str(result) + "\t Expected: " + str(expected)
+        # print "Net output: " + str(result) + "\t Expected: " + str(expected)
         
         # Normal connection so expected to be 1
         if result < threshold:
@@ -163,14 +160,10 @@ class SingleTestingHandler(testingHandler.testingHandler):
         input_value_list = []
         success_val = 0
 
-        for k, v in connection.iteritems():
+        for current in input_list:
+            input_value_list.append(connection[current])
 
-            # If the key matches, put its value in the list
-            if k in input_list:
-                input_value_list.append(v)
-            
-            if k == success:
-                success_val = v
+        success_val = connection[success]
         
         return (input_value_list, success_val)
 
