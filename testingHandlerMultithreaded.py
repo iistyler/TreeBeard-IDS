@@ -7,6 +7,7 @@ import time
 import Queue
 import multiprocessing
 import numpy as np
+import sys
 
 THREADS = 3
 
@@ -270,3 +271,16 @@ class testingHandler:
 
         # Returns percent correctly determined
         return sendLower;
+
+
+
+
+if __name__ == "__main__":
+
+    if len(sys.argv) < 2:
+        print "Usage: python testingHandlerMultithreaded.py [schema file]"
+        sys.exit()
+
+    testHandler = testingHandler(sys.argv[1])
+    testHandler.testWholeNetwork()
+
