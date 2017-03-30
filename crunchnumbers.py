@@ -52,28 +52,27 @@ try:
         time = float(row[2])
         total_time += time
 
-        lastRow = eval('[' + row[0].replace("*", ",") + ']')[0]
-        row[1] = eval('[' + row[1].replace("*", ",") + ']')[0]
+        connection_type = eval('[' + row[0].replace("*", ",") + ']')[0]
+        predicted_conn_type = eval('[' + row[1].replace("*", ",") + ']')[0]
         
         # Check what type the connection was 
-        if "normal" in lastRow:
+        if "normal" in connection_type:
             normal_conn += 1
         else:
             malicious_conn += 1
 
-        if len(common_elements(lastRow, row[1])) > 0:
+        if len(common_elements(connection_type, predicted_conn_type)) > 0:
             correct += 1
         else:
             
             # If it was classified as wrong attack type 
-            if "normal" not in lastRow and "normal" not in row[1]:
-                #sys.stderr.write("Actual: " + str(lastRow) + "\t\tPredicted: " + str(row[1]) + "\n")
+            if "normal" not in connection_type and "normal" not in predicted_conn_type:
                 wrong_conn_type += 1
             else: 
                 incorrect += 1
 
             # Predicted Normal
-            if "normal" in row[1]:
+            if "normal" in predicted_conn_type:
                 false_normal_conn += 1
             else:
                 false_malic_conn += 1
@@ -98,6 +97,8 @@ finally:
 
 total = normal_conn + malicious_conn
 
+# This assertion should never fail or something went horribly wrong
+assert total == correct + incorrect + wrong_conn_type
 
 print "Total: " + str(total)
 print "Normal: " + str(normal_conn)
