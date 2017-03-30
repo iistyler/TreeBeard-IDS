@@ -82,6 +82,7 @@ class SingleTestingHandler(testingHandler.testingHandler):
                 expected = result[1]
                 time = result[2]
                 guess = result[0]
+                results_dict[net_name] = result[3]
 
                 # Flip normal actions so that the result reflects that result == expected
                 # means it should go down a layer
@@ -118,8 +119,14 @@ class SingleTestingHandler(testingHandler.testingHandler):
         #    sys.stderr.write(connection)
         #    sys.stderr.write(predicted_conn_type)
         #print "Predicted: " + str(predicted_conn_type)
-        print str(conn_type).replace(",", "*") + "," + str(predicted_conn_type).replace(",", "*") + "," + str(total_time) + "," + str(layers_traversed)
-
+        
+        sys.stdout.write(str(conn_type).replace(",", "*") + "," + str(predicted_conn_type).replace(",", "*") + "," + '{0:f}'.format(total_time) + "," + str(layers_traversed) + ",")
+                
+        for k, v in results_dict.iteritems():
+            sys.stdout.write(str(k) + "=" + '{0:.6f}'.format(v) + ";")
+            
+        sys.stdout.write("\n")
+        sys.stdout.flush()
 
     def testSingleNet(self, currentNet, connection):
          
