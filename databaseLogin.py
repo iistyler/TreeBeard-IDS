@@ -2,6 +2,6 @@
 import MySQLdb
 
 DBhost="localhost"
-DBuser="whaze"
+DBuser=""
 DBpassword=""
 DBdb="KDD"
