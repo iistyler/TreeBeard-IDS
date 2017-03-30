@@ -35,8 +35,12 @@ total_time = 0.0
 layer_times = [ 0.0 , 0.0, 0.0 ]
 layer_times_list = [ [], [], [] ]
 
+# Total number of connections 
 normal_conn = 0
 malicious_conn = 0
+
+# Number of connections classified as wrong attack type
+wrong_conn_type = 0
 
 f = open(sys.argv[1], 'rt')
 
@@ -60,7 +64,13 @@ try:
         if len(common_elements(lastRow, row[1])) > 0:
             correct += 1
         else:
-            incorrect += 1
+            
+            # If it was classified as wrong attack type 
+            if "normal" not in lastRow and "normal" not in row[1]:
+                #sys.stderr.write("Actual: " + str(lastRow) + "\t\tPredicted: " + str(row[1]) + "\n")
+                wrong_conn_type += 1
+            else: 
+                incorrect += 1
 
             # Predicted Normal
             if "normal" in row[1]:
@@ -86,7 +96,7 @@ finally:
     f.close()
 
 
-total = correct + incorrect
+total = normal_conn + malicious_conn
 
 
 print "Total: " + str(total)
@@ -94,8 +104,10 @@ print "Normal: " + str(normal_conn)
 print "Malicious: " + str(malicious_conn)
 print "Correct: " + str(correct) + "(" + str(correct / float(total)) + ")"
 print "Incorrect: " + str(incorrect) + "(" + str(incorrect / float(total)) + ")"
+print "Correctly Identified Malicious Connections: " + str(malicious_conn - false_normal_conn - wrong_conn_type)
 print "Marked as Malicious but Normal: " + str(false_malic_conn)
 print "Marked as Normal but is Malicious: " + str(false_normal_conn)
+print "Classified as Wrong attack type: " + str(wrong_conn_type)
 print "Traversed down 1 layer: " + str(one_layer)
 print "Traversed down 2 layers: " + str(two_layer)
 print "Traversed down 3 layers: " + str(three_layer)
@@ -107,7 +119,12 @@ print "Layer 3 Average Time: " + str( layer_times[2] / float(three_layer))
 
 
 # Some defined flags to dump R readable information
-if sys.argv[2] == "-t":
+if len(sys.argv) > 2:
+    flag = sys.argv[2]
+else:
+    flag = ""
+
+if flag == "-t":
     print "Dumping time information"
 
     f = open("times.csv", "w")
