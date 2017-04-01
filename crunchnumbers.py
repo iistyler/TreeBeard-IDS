@@ -17,6 +17,7 @@
 
 import csv
 import sys
+from collections import defaultdict
 
 def common_elements(list1, list2):
     return list(set(list1) & set(list2))
@@ -35,12 +36,20 @@ total_time = 0.0
 layer_times = [ 0.0 , 0.0, 0.0 ]
 layer_times_list = [ [], [], [] ]
 
+# Keep track of the times for normal connections and malicious connections
+conn_type_times = { "normal": 0.0, "malicious": 0.0 }
+
 # Total number of connections 
 normal_conn = 0
 malicious_conn = 0
 
 # Number of connections classified as wrong attack type
 wrong_conn_type = 0
+
+# Keep track of what normals are being wrongly classified as
+wrong_normal_connections = {}
+wrong_normal_connections = defaultdict(lambda: 0, wrong_normal_connections)
+
 
 f = open(sys.argv[1], 'rt')
 
@@ -58,23 +67,30 @@ try:
         # Check what type the connection was 
         if "normal" in connection_type:
             normal_conn += 1
+            conn_type_times["normal"] += time
         else:
             malicious_conn += 1
+            conn_type_times["malicious"] += time
 
         if len(common_elements(connection_type, predicted_conn_type)) > 0:
             correct += 1
         else:
             
             # If it was classified as wrong attack type 
+            wrong_conn_flag = 0
             if "normal" not in connection_type and "normal" not in predicted_conn_type:
                 wrong_conn_type += 1
+                wrong_conn_flag = 1
             else: 
                 incorrect += 1
 
             # Predicted Normal
             if "normal" in predicted_conn_type:
                 false_normal_conn += 1
-            else:
+            elif "normal" not in predicted_conn_type and wrong_conn_flag == 0:
+                for i in predicted_conn_type:
+                    wrong_normal_connections[str(i)] += 1
+
                 false_malic_conn += 1
 
         if row[3] == '3':
@@ -101,8 +117,8 @@ total = normal_conn + malicious_conn
 assert total == correct + incorrect + wrong_conn_type
 
 print "Total: " + str(total)
-print "Normal: " + str(normal_conn)
-print "Malicious: " + str(malicious_conn)
+print "Normal: " + str(normal_conn) + " (" + '{0:f}'.format(conn_type_times["normal"]/float(normal_conn))+"s)"
+print "Malicious: " + str(malicious_conn)+" ("+str(conn_type_times["malicious"]/float(malicious_conn))+"s)"
 print "Correct: " + str(correct) + "(" + str(correct / float(total)) + ")"
 print "Incorrect: " + str(incorrect) + "(" + str(incorrect / float(total)) + ")"
 print "Correctly Identified Malicious Connections: " + str(malicious_conn - false_normal_conn - wrong_conn_type)
@@ -118,6 +134,9 @@ print "Layer 1 Average Time: " + '{0:f}'.format(layer_times[0] / float(one_layer
 print "Layer 2 Average Time: " + str( layer_times[1] / float(two_layer))
 print "Layer 3 Average Time: " + str( layer_times[2] / float(three_layer))
 
+print "Dumping the count for each wrongly classified normal: "
+for k, v in wrong_normal_connections.iteritems():
+    print "\t" + str(k) + ":" + str(v)
 
 # Some defined flags to dump R readable information
 if len(sys.argv) > 2:
