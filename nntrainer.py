@@ -17,20 +17,24 @@ class NNTrainer:
 		fields.append(successField)
 		newArr = []
 
-		if (successField != "normal"):
-			for x in range(normRuns):
-				# print "Ran norm"
-				newArr += db.getFields(fields, "train", None, None)
-			for x in range(typeRuns):
-				# print "Ran type " + successField
-				newArr += db.getFields(fields, "train", None, successField)
-		else:
-			for x in range(typeRuns):
-				# print "Ran norm"
-				newArr += db.getFields(fields, "train", None, "normal")
-			for x in range(normRuns):
-				# print "Ran all"
-				newArr += db.getFields(fields, "train", None, None)
+		temp1Arr = []
+		print "Fetching normal data"
+		if normRuns > 0:
+			temp1Arr += db.getFields(fields, "train", None, None)
+			print "Fetched normal data"
+			temp1Arr *= normRuns
+		print "Completed normal data"
+
+		temp2Arr = []
+		print "Fetching type data"
+		if typeRuns > 0:
+			temp2Arr += db.getFields(fields, "train", None, successField)
+			print "Fetched type data"
+			temp2Arr *= typeRuns
+		print "Completed type data"
+
+		newArr += temp1Arr
+		newArr += temp2Arr
 
 		# Get each row from DB
 		for row in newArr:
