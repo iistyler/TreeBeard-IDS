@@ -54,7 +54,7 @@
 			"dst_host_srv_serror_rate",
 			"dst_host_rerror_rate"
 		],
-	"typeRuns": 5,
+	"typeRuns": 96000,
 	"normRuns": 1,
 	"success": "u2r"
 }

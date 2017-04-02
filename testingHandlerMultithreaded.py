@@ -9,7 +9,7 @@ import multiprocessing
 import numpy as np
 import sys
 
-THREADS = 3
+THREADS = 5
 
 NEWONLY = 0
 
@@ -182,13 +182,13 @@ class testingHandler:
             if guess == 0 and expected == 1:
                 falsePositives += 1.0
 
-            # Normal has reversed stats
-            if successField == "normal":
-                tempFalse = falsePositives
-                falsePositives = normalAsThreat
-                normalAsThreat = tempFalse
-
             total += 1.0            # To prevent integer division
+
+       # Normal has reversed stats
+        if successField == "normal":
+        	tempNormal = normalAsThreat
+        	normalAsThreat = falsePositives
+        	falsePositives = tempNormal
 
         returnData = [correct, total, correctOfType, totalOfType, falsePositives, sendLower, normalAsThreat]
         return_dict[x] = returnData
