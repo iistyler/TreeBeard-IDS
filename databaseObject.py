@@ -56,7 +56,7 @@ class Database:
 		# Check type of data and override to avoid full database
 		if (tableType == "train"):
 			table = "TrainData"
-			# addString += " LIMIT 1000"
+			# addString += " LIMIT 5200"
 		else:
 			table = "TestData"
 
