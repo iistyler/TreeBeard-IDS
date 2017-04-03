@@ -18,6 +18,7 @@
 import csv
 import sys
 from collections import defaultdict
+import operator
 
 def common_elements(list1, list2):
     return list(set(list1) & set(list2))
@@ -50,6 +51,12 @@ wrong_conn_type = 0
 wrong_normal_connections = {}
 wrong_normal_connections = defaultdict(lambda: 0, wrong_normal_connections)
 
+wrong_malic_connections = {}
+wrong_malic_connections = defaultdict(lambda: 0, wrong_malic_connections)
+
+# Count of each attack type
+attack_count = {}
+attack_count = defaultdict(lambda: 0, attack_count)
 
 f = open(sys.argv[1], 'rt')
 
@@ -64,6 +71,11 @@ try:
         connection_type = eval('[' + row[0].replace("*", ",") + ']')[0]
         predicted_conn_type = eval('[' + row[1].replace("*", ",") + ']')[0]
         
+        for i in connection_type:
+            if i not in ["dos", "u2r", "probe", "u2l", "normal"]:
+                attack_count[i] += 1
+
+
         # Check what type the connection was 
         if "normal" in connection_type:
             normal_conn += 1
@@ -87,10 +99,15 @@ try:
             # Predicted Normal
             if "normal" in predicted_conn_type:
                 false_normal_conn += 1
+                
+                for i in connection_type:
+                    if i not in ["dos", "u2r", "probe", "u2l"]:
+                        wrong_malic_connections[i] += 1
+
             elif "normal" not in predicted_conn_type and wrong_conn_flag == 0:
                 for i in predicted_conn_type:
                     wrong_normal_connections[str(i)] += 1
-
+                
                 false_malic_conn += 1
 
         if row[3] == '3':
@@ -137,6 +154,16 @@ print "Layer 3 Average Time: " + str( layer_times[2] / float(three_layer))
 print "Dumping the count for each wrongly classified normal: "
 for k, v in wrong_normal_connections.iteritems():
     print "\t" + str(k) + ":" + str(v)
+
+print "Dumping the count for attacks classified as normal: "
+sorted_malic = sorted(wrong_malic_connections.items(), key=operator.itemgetter(1), reverse=True)
+for i in sorted_malic:
+    print "\t" + str(i[0]) + ": " + str(i[1])
+
+print "Dumping the total count for each attack: "
+sorted_attack = sorted(attack_count.items(), key=operator.itemgetter(1), reverse=True)
+for y in sorted_attack:
+    print "\t" + str(y[0]) + ": " + str(y[1])
 
 # Some defined flags to dump R readable information
 if len(sys.argv) > 2:
