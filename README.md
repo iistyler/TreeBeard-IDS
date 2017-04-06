@@ -3,7 +3,7 @@
 ## Installation  
 ### Download Project & Install Dependencies
 ```
-git clone https://github.com/iistyler/IntrusionDetector3000.git && cd IntrusionDetector3000  
+git clone https://github.com/iistyler/TreeBeard-IDS.git && cd TreeBeard-IDS  
 virtualenv venv && source venv/bin/activate  
 pip install -r requirements.txt 
 ```
