@@ -1,4 +1,4 @@
-# IntrusionDetector3000  
+# TreeBeard IDS
 
 ## Installation  
 ### Download Project & Install Dependencies
