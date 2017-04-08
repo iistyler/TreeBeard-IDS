@@ -137,8 +137,6 @@ class testingHandler:
 
         # Fetch data from DB
         checkData = self.fetchData(fields, successField, ids)
-        blah = 0
-        blah2 = 0
 
         # Test each record
         for row in checkData:
