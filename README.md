@@ -35,9 +35,11 @@ python Database/FileToDB.py
 
 ## Usage
 
-Trained neural nets are stored in NetBinarySaves/
-Schema for tree layout is located in XMLSchema/
-Descriptions for neural nets to train are in JSONNetDesc/
+- Trained neural nets are stored in NetBinarySaves/
+
+- Schema for tree layout is located in XMLSchema/
+
+- Descriptions for neural nets to train are in JSONNetDesc/
 
 The application will go through the tree schema and find any networks not saved in "NetBinarySaves" and train them based on the description located in "JSONNetDesc"
 
