@@ -9,11 +9,12 @@ pip install -r requirements.txt
 ```
   
 ### Download KDD datasets:  
-Download the data from the KDD website. Note if you don't plan on training the neural networks downloading the 
-training data is sufficient.  
+Download the data from the KDD website. Note if you don't plan on training the neural networks downloading the training data is sufficient.
+
+Download both files to Database folder
 
 ```
-curl http://kdd.ics.uci.edu/databases/kddcup99/corrected.gz > test.gz
+curl http://kdd.ics.uci.edu/databases/kddcup99/kddcup.data_10_percent.gz > test.gz 
 curl http://kdd.ics.uci.edu/databases/kddcup99/kddcup.data.gz > train.gz
 
 gunzip -k test.gz
@@ -23,10 +24,14 @@ gunzip -k train.gz
 You should now have the data files test & train.
 
 ### Set up database
+Add database credentials if different from current user to databaseLogin.py 
+& Database/FileToDB.py
+
 ```
 mysql -e "create database KDD"
 mysql KDD < DATABASEFILE.sql
-TODO: ADD AUTOMATED SCRIPT
+
+python Database/FileToDB.py
 ```
 
 ## Usage  
